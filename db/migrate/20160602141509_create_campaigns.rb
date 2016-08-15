@@ -4,7 +4,7 @@ class CreateCampaigns < ActiveRecord::Migration
       t.string :name
       t.boolean :sent, default: false
       t.datetime :date_sent
-      t.text :profiles_ids, default: [].to_yaml
+      t.text :profiles_ids, array: true, default: []
       t.float :progress, default: 0.0
       t.integer :email_template_id, null: false
 
@@ -13,6 +13,6 @@ class CreateCampaigns < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_column :users, :campaigns_sent_ids, :text, default: [].to_yaml
+    add_column :users, :campaigns_sent_ids, :text, array: true, default: []
   end
 end
