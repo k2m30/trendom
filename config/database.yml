@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 16
+  timeout: 10000
+
+development:
+  <<: *default
+  database: trendom
+  password: q
+
+test:
+  <<: *default
+  database: trendom_test
+  password: q
+
+production:
+    <<: *default
+    adapter: postgresql
+    encoding: unicode
+    database: <%= ENV['RDS_DB_NAME'] %>
+    username: <%= ENV['RDS_USERNAME'] %> #trendom
+    password: <%= ENV['RDS_PASSWORD'] %> #42RXsUfpq

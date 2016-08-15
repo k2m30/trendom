@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Host: http://trendom.io/
+
+Sitemap: http://trendom.io/sitemap.xml

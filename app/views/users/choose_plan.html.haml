@@ -1,0 +1,187 @@
+.body.center-block
+  .row
+    .col-md-12
+      %h2
+        Plans & Pricing
+  .row
+    .col-md-12
+      .row
+        .col-md-3
+          .plan
+            .newbie
+              %h4
+                Newbie
+              %p
+                Good place to start
+              .font-44
+                Free
+              %p
+                We provide you with
+                %span.font-20
+                  10
+                free credits to get yourself familiar with the powerful tool that we offer
+
+              -if @user.plan?('Free')
+                %h5 Your current plan
+
+        .col-md-3
+          .plan
+            .newbie
+              %h4
+                Light
+              %p
+                Best plan for one time campaign
+              .font-44
+                %span.money $
+                %span.amount 39
+                %cite.month
+                  \/mo
+              .ul
+                %ul.list-unstyled
+                  %li
+                    80 Prospects
+                  %li
+                    3 Email Campaigns
+                  %li
+                    \~
+                    48¢ per Contact
+                  %li
+                    = fa_icon 'linkedin', class: 'social'
+                    Linkedin Search and Profiles
+                  %li
+                    = fa_icon 'check'
+                    Enrich Leads
+                  %li
+                    = fa_icon 'check'
+                    Export prospects
+                  %li
+                    = fa_icon 'check'
+                    Unlimited Email Templates
+              =render partial: 'payment_method', locals: {plan: 'Light', price: '39.0'}
+
+        .col-md-3
+          .plan
+            .newbie
+              %h4
+                Standard
+              %p
+                For small and medium sales teams
+              .font-44
+                %span.money $
+                %span.amount 99
+                %cite.month
+                  \/mo
+              .ul
+                %ul.list-unstyled
+                  %li
+                    250 Prospects
+                  %li
+                    15 Email Campaigns
+                  %li
+                    \~
+                    39¢ per Contact
+                  %li
+                    = fa_icon 'linkedin', class: 'social'
+                    Linkedin Search and Profiles
+                  %li
+                    = fa_icon 'twitter', class: 'social'
+                    Twitter Profiles
+                  %li
+                    = fa_icon 'check'
+                    Enrich Leads
+                  %li
+                    = fa_icon 'check'
+                    Export prospects
+                  %li
+                    = fa_icon 'check'
+                    Unlimited Email Templates
+              =render partial: 'payment_method', locals: {plan: 'Standard', price: '99.0'}
+
+        .col-md-3
+          .plan
+            .newbie
+              %h4
+                Advanced
+              %p
+                Special needs
+              .font-44
+                %span.money $
+                %span.amount 279
+                %cite.month
+                  \/mo
+              .ul
+                %ul.list-unstyled
+                  %li
+                    2000 Prospects
+                  %li
+                    Unlimited Email Campaigns
+                  %li
+                    \~
+                    14¢ per Contact
+                  %li
+                    = fa_icon 'linkedin', class: 'social'
+                    Linkedin Search and Profiles
+                  %li
+                    = fa_icon 'twitter', class: 'social'
+                    Twitter Profiles
+                  %li
+                    = fa_icon 'facebook', class: 'social'
+                    Facebook Profiles
+                  %li
+                    = fa_icon 'check'
+                    Enrich Leads
+                  %li
+                    = fa_icon 'check'
+                    Export prospects
+                  %li
+                    = fa_icon 'check'
+                    Unlimited Email Templates
+              =render partial: 'payment_method', locals: {plan: 'Advanced', price: '279.0'}
+
+  .row
+    .col-md-12
+      %p.text-muted
+        Don't worry, you can upgrade, downgrade or cancel your plan at any time
+  .row
+    .col-md-12
+      %h3
+        Questions and answers
+  .row.qa
+    .col-md-6
+      %h4
+        How many prospects do I need?
+      %p
+        We would recommend you to start with
+        %cite
+          Light Plan
+        and upgrade it step by step once you have need. Upgrade action will take effect immediately,
+        while downgrade and cancel actions will be effective at the end of the billing period.
+      %h4
+        Can I change plans or cancel my account later?
+      %p
+        Of course. You can upgrade, downgrade, or cancel your account at any time via your “Account” page.
+      %h4
+        What about contracts or hidden charges?
+      %p
+        We don’t have any contracts so there’s no long-term commitment. You can cancel your subscription any time. And we don’t have any hidden charges whatsoever.
+    .col-md-6
+      %h4
+        What types of payment do you accept?
+      %p
+        We accept all major credit cards including Visa and MasterCard. Also, we accept PayPal. Contact us to pay via Wire Transfer, Check or Money Order as well as Purchase Order.
+      %h4
+        Still have a question?
+      %p
+        Shoot us an email to
+        = mail_to 'team@trendom.io'
+        = fa_icon 'envelope-o'
+      %p
+        We are ready to help. Really.
+
+  .row
+    .col-md-12
+      %h4
+        Payment methods
+      =image_tag 'paymentmethods.jpg'
+
+%script{src: 'https://www.2checkout.com/static/checkout/javascript/direct.min.js'}

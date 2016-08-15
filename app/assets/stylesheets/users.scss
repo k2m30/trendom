@@ -1,0 +1,60 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.plan {
+  border-right: 1px solid darkgray;
+  line-height: 1.5;
+
+  i.social {
+    color: #555;
+  }
+
+  ul {
+    list-style: none;
+    line-height: 28px;
+  }
+
+  li {
+    color: #444;
+  }
+
+  i {
+    color: #38c994;
+  }
+}
+
+.font-44 {
+  font-size: 44px;
+}
+
+.font-20 {
+  font-size: 20px;
+}
+
+.month {
+  opacity: 0.5;
+  font-size: 18px;
+}
+
+.money {
+  vertical-align: top;
+  position: relative;
+  top: 10px;
+  font-size: 22px;
+}
+
+.body {
+  max-width: 1124px;
+  padding-bottom: 50px;
+}
+
+.qa {
+  line-height: 2.0;
+  p {
+    padding-bottom: 10px;
+  }
+}
+
+.dropdown {
+  padding-top: 15px;
+}
