@@ -14,12 +14,14 @@ class RevealEmailJob < ApplicationJob
       return
     end
 
-    profile = Profile.find(profile_id)
+    profile = user.profiles.find(profile_id)
+    return unless profile
+
     profile.with_lock do
       profile.get_emails
     end
 
-    sql = "UPDATE users SET calls_left = calls_left - 1, progress = progress + #{increment}, revealed_ids = regexp_replace(revealed_ids, ' \\[\\]', '') || '- #{profile_id}\n' WHERE id = #{user_id};"
+    sql = "UPDATE users SET calls_left = calls_left - 1, progress = progress + #{increment}, revealed_ids = revealed_ids || #{profile_id} WHERE id = #{user_id};"
     ActiveRecord::Base.connection.execute(sql)
   end
 end

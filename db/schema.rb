@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608082958) do
+ActiveRecord::Schema.define(version: 20160818070400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,13 +19,13 @@ ActiveRecord::Schema.define(version: 20160608082958) do
     t.string   "name"
     t.boolean  "sent",              default: false
     t.datetime "date_sent"
-    t.text     "profiles_ids",      default: "--- []\n"
     t.float    "progress",          default: 0.0
-    t.integer  "email_template_id",                      null: false
+    t.integer  "email_template_id",                 null: false
     t.integer  "user_id"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "subject"
+    t.integer  "profiles_ids",      default: [],                 array: true
   end
 
   create_table "email_templates", force: :cascade do |t|
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 20160608082958) do
     t.string   "position"
     t.string   "photo"
     t.string   "location"
-    t.string   "emails",           default: "--- []\n"
     t.text     "notes"
     t.string   "linkedin_url"
     t.string   "twitter_url"
@@ -52,7 +51,7 @@ ActiveRecord::Schema.define(version: 20160608082958) do
     t.integer  "emails_available"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["emails"], name: "index_profiles_on_emails", using: :btree
+    t.text     "emails",           default: [], array: true
     t.index ["facebook_id"], name: "index_profiles_on_facebook_id", using: :btree
     t.index ["linkedin_id"], name: "index_profiles_on_linkedin_id", using: :btree
     t.index ["twitter_id"], name: "index_profiles_on_twitter_id", using: :btree
@@ -66,10 +65,10 @@ ActiveRecord::Schema.define(version: 20160608082958) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                default: "",         null: false
-    t.string   "encrypted_password",   default: "",         null: false
+    t.string   "email",                default: "",  null: false
+    t.string   "encrypted_password",   default: "",  null: false
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",        default: 0,          null: false
+    t.integer  "sign_in_count",        default: 0,   null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -91,10 +90,10 @@ ActiveRecord::Schema.define(version: 20160608082958) do
     t.string   "card_number"
     t.integer  "calls_left",           default: 0
     t.float    "progress",             default: 0.0
-    t.text     "revealed_ids",         default: "--- []\n"
-    t.text     "campaigns_sent_ids",   default: "--- []\n"
     t.string   "tkn"
     t.integer  "expires_at"
+    t.integer  "revealed_ids",         default: [],               array: true
+    t.integer  "campaigns_sent_ids",   default: [],               array: true
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 

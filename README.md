@@ -1,24 +1,51 @@
-# README
+                                       Prefix Verb     URI Pattern                                              Controller#Action
+                                  people_find POST     /people/find(.:format)                                   profiles#get_emails_available
+                get_emails_available_profiles POST     /profiles/get_emails_available(.:format)                 profiles#get_emails_available
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+                request:
+                было бы круто если бы в этот запрос не надо было передавать uid/email - я бы запускал его в background и не висел бы спиннер на popup'е 
 
-Things you may want to cover:
+                {   "uid"=>"102594557413371756317",
+                    "email"=>"mikhail.chuprynski@gmail.com",
+                    "source" => "linkedin",
+                    "version"=>1,
+                    "data"=>
+                    [
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                        {"name"=>"Jamie Stuart", "id"=>"60141954", "public_id"=>"ADEAAAOVsYIBNfI6jyimaP9MPfSqcPqdV3VXyUQ", "position"=>"Director & CTO at onebillion", "location"=>"London, United Kingdom", "photo"=>"https://media.licdn.com/mpr/mpr/shrink_100_100/p/8/000/1ce/361/36130a9.jpg"},
+                    ],
+                }
 
-* Ruby version
+                respond:
+                {"60141954":0,"389189717":1,"13235550":0,"41063941":2,"18950630":4,"76610323":1,"1750426":1,"13416606":1,"558205":3,"159435525":2}
 
-* System dependencies
+                 Лишнее -   [:data][][:email]
+                            [:data][][:url]
+                            [:profile]
 
-* Configuration
+                 Кнопка Add
+                           add_profiles_users POST     /users/add_profiles(.:format)                            users#add_profiles
+                 request: то же
+                 respond: то же
+                 если бы ты тут вернёш общее кол-во запросов для пользователя - я смогу впихнуть это в каунтер на кнопке download 
 
-* Database creation
 
-* Database initialization
+                 Кнопка Download (http://account.trendom.io)
+                                         root GET      /                                                        users#show
 
-* How to run the test suite
+To have launchd start redis now and restart at login:
+  brew services start redis
+Or, if you don't want/need a background service you can just run:
 
-* Services (job queues, cache servers, search engines, etc.)
+  redis-server /usr/local/etc/redis.conf
 
-* Deployment instructions
-
-* ...
+  COUNT=5 QUEUE=* rake resque:work

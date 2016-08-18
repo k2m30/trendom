@@ -5,7 +5,7 @@ KEYS ||= %w(BUSINESS-PREMIUM-DEMO-66spkvy0o4ynmjnyxmcdxqt2 BUSINESS-DEMO-o8u26xc
 class PiplDb
   def self.find(person_hash)
     response = get_response(person_hash, 'email'.freeze)
-    return response.person
+    return response.nil? ? nil : response.person
   end
 
   def self.emails_available(person_hash)

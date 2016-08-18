@@ -1,7 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!, except: [:get_emails_available]
-  before_filter :set_profile, only: [:edit, :update]
-  skip_before_filter :verify_authenticity_token, only: [:get_emails_available]
+  before_action :set_profile, only: [:edit, :update]
+  skip_before_action :verify_authenticity_token, only: [:get_emails_available]
 
   def get_emails_available
     headers['Access-Control-Allow-Origin'] = '*'

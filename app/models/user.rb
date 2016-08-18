@@ -2,8 +2,8 @@ require 'csv'
 class User < ApplicationRecord
   devise :database_authenticatable, :trackable, :omniauthable, omniauth_providers: [:google_oauth2]
 
-  serialize :revealed_ids
-  serialize :campaigns_sent_ids
+  # serialize :revealed_ids
+  # serialize :campaigns_sent_ids
 
   has_many :email_templates, dependent: :delete_all
   has_many :campaigns, dependent: :delete_all

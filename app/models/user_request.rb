@@ -4,7 +4,7 @@ class UserRequest
   def initialize(params)
     @profiles = []
 
-    hash = params.deep_symbolize_keys
+    hash = JSON.parse(JSON[params.to_unsafe_h], symbolize_names: true)
     @uid = hash[:uid]
     @email = hash[:email]
     @source = hash[:source].to_sym

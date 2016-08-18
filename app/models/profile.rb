@@ -9,7 +9,7 @@ TWO_PART_DOMAINS = %w(ac.at ac.il ac.uk apc.org asn.au att.com att.net boi.ie bp
 class Profile < ApplicationRecord
   has_and_belongs_to_many :users
   serialize :notes, Hash
-  serialize :emails
+  # serialize :emails
 
   def apply_template(email_template_id)
     first, last = split_name
