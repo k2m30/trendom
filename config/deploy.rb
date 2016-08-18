@@ -69,6 +69,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
+    # queue! 'RAILS_ENV=production rails assets:precompile RAILS_GROUPS=assets'
     invoke :'deploy:cleanup'
     queue! 'rm /etc/nginx/sites-enabled/trendom.conf'
     queue! "ln -s #{deploy_to}/#{current_path}/config/nginx/trendom.conf /etc/nginx/sites-enabled/trendom.conf"
