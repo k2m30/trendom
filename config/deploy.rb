@@ -12,7 +12,7 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
 set :domain, 'trendom.io'
 set :deploy_to, '/home/deploy/trendom.io'
-set :repository, 'git://github.com/k2m30/trendom_backend'
+set :repository, 'git://github.com/k2m30/trendom'
 set :branch, 'master'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
