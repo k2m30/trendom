@@ -14,7 +14,7 @@ RSpec.feature Profile, type: :feature do
 
   let(:user) { User.first }
 
-  it 'can mine some profiles in Linkedin it user has no profiles' do
+  it 'can mine some profiles in Linkedin if user has no profiles' do
     user.profiles.destroy_all
     visit user_root_path
     expect(all('#linkedin').size).to be 1
