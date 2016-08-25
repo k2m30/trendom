@@ -11,6 +11,7 @@ class FailureException < StandardError;
 end
 
 class EmailChecker
+  #TODO change default email to user's email
   def initialize(domain_options, email_options, user_email = 'team@trendom.io')
     domain_options.each do |domain|
       @mx_servers = list_mxs domain
@@ -18,7 +19,7 @@ class EmailChecker
       @mx_servers.empty? ? next : break
     end
 
-    raise NoMailServerException.new("No mail server for #{domain_options}") if @mx_servers.empty?
+    logger.error "No mail server for #{domain_options}" if @mx_servers.empty?
     @smtp = nil
 
     @user_email = user_email
@@ -28,6 +29,8 @@ class EmailChecker
   end
 
   def find_right_email
+    return nil if @mx_servers.empty?
+
     email = nil
     @email_options.each do |e|
       connect
@@ -116,6 +119,7 @@ class EmailChecker
     if smtp_return.status.to_i == 250
       return true
     else
+      #TODO add 451 smtp response code handler + logger file
       raise FailureException.new "Mail server responded with #{smtp_return.status} when we were expecting 250"
     end
   end

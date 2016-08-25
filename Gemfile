@@ -76,6 +76,8 @@ gem 'sanitize'
 gem 'resque'
 
 gem 'haml-rails', '~> 0.9'
+gem 'typhoeus'
+
 group :production do
   gem 'rollbar'
 end

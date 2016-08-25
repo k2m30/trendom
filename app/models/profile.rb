@@ -1,10 +1,14 @@
 require_relative 'pipl_db'
+require 'trendom_db'
 require_relative 'user_request'
 require 'email_verifier'
 require 'google_custom_search_api'
 
+#TODO add more domains from file
 TWO_PART_DOMAINS = %w(ac.at ac.il ac.uk apc.org asn.au att.com att.net boi.ie bp.com cmu.edu co.com co.gg co.il co.im co.in co.je co.jp co.nz co.th co.uk co.ukc co.za co.zw com.ar com.au com.bh com.br com.cn com.cy com.gt com.hk com.mk com.mt com.mx com.ng com.pk com.pt com.qa com.sg com.tr com.ua dcu.ie dsv.com edu.ge edu.in edu.tr eu.com ey.com gb.com ge.com gm.com gov.au gov.im gov.uk gt.com gwu.edu hhs.se hse.fi ibm.com ie.edu in.gov in.ua ing.com jnj.com ko.com kth.se kwe.com lls.com ltd.uk me.uk mit.edu mod.uk mps.it msn.com net.au net.il net.lb net.nz net.tr net.uk nhs.uk nyc.gov org.pl org.qa org.uk pkf.com plc.uk pwc.com rlb.com rr.com sas.com tac.com tcd.ie to.it uk.com uk.net unc.edu ups.com us.com utc.com yr.com)
 
+#TODO add masks like yhahoo.com.rb etc
+TRUSTED_DOMAINS = %w(gmail.com hotmail.com yahoo.com aol.com comcast.net yahoo.co.in msn.com sbcglobal.net rediffmail.com yahoo.fr yahoo.co.uk live.com yahoo.com.br hotmail.co.uk verizon.net hotmail.fr ymail.com cox.net bellsouth.net libero.it att.net yahoo.es btinternet.com mail.ru googlemail.com earthlink.net mac.com yahoo.in yahoo.ca hotmail.it charter.net yahoo.com.ar ig.com.br me.com wanadoo.fr 163.com yahoo.it optonline.net uol.com.br rogers.com yahoo.com.mx shaw.ca orange.fr rocketmail.com free.fr gmx.de web.de terra.com.br hotmail.es sympatico.ca bigpond.com yahoo.co.id alice.it bol.com.br live.co.uk live.fr)
 
 class Profile < ApplicationRecord
   has_and_belongs_to_many :users
@@ -40,16 +44,37 @@ class Profile < ApplicationRecord
   def get_emails
     return emails unless emails.empty?
 
-    if Rails.env.development?
-      update(emails: ['test@test.com'])
-      return ['test@test.com']
-    end
+    get_emails_from_trendom
+    return emails unless emails.empty?
 
     get_emails_from_google
     return emails unless emails.empty?
 
     get_emails_from_pipl
     return emails
+  end
+
+  def get_emails_from_trendom(update = true)
+    return [] if linkedin_id.nil?
+
+    email = TrendomLinkedinDb.new(linkedin_id).get_email
+
+    return [] if email.nil?
+
+    name, domain = email.split('@')
+    return [] if name.nil? or domain.nil?
+
+    unless trusted?(domain)
+      checker = EmailChecker.new([domain], [name])
+      email = checker.find_right_email
+    end
+
+    if email
+      update(emails: [email]) if update
+      [email]
+    else
+      []
+    end
   end
 
   def get_emails_from_pipl(update = true)
@@ -113,6 +138,7 @@ class Profile < ApplicationRecord
 
   end
 
+  #TODO add advanced algorithm
   def get_googlehost
     location.include?('United Kingdom') ? 'google.co.uk' : 'google.com'
   end
@@ -160,12 +186,7 @@ class Profile < ApplicationRecord
     TWO_PART_DOMAINS.any? { |tp| domain[/#{tp}$/] }
   end
 
+  def trusted?(domain)
+    TRUSTED_DOMAINS.include?(domain)
+  end
 end
-
-# {"name" => "Greg Barnett",
-#  "source" => {"id" => "112123234", "public_id" => "ADEAAAau3WIBXuhln8uvxcEEG7Hb5M1I74oQyh4", "social_network" => "linkedin"},
-#  "position" => "Co Founder & CTO at StarStock ltd",
-#  "Location" => "London, United Kingdom",
-#  "photo" => "https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAXZAAAAJGE2OTQwZTkwLTM1OTYtNDc1YS05MDdhLTAzZmYyYTE5ODAwYw.jpg", "url" => "https://www.linkedin.com/profile/view?id=ADEAAAau3WIBXuhln8uvxcEEG7Hb5M1I74oQyh4&authType=OUT_OF_NETWORK&authToken=cOxw&locale=en_US&srchid=4120029691459362192716&srchindex=91&srchtotal=179817&trk=vsrp_people_res_name&trkInfo=VSRPsearchId%3A4120029691459362192716%2CVSRPtargetId%3A112123234%2CVSRPcmpt%3Aprimary%2CVSRPnm%3Afalse%2CauthType%3AOUT_OF_NETWORK",
-#  "email" => "0 emails available",
-#  "id" => "112123234"}
