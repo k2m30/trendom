@@ -81,7 +81,7 @@ class Profile < ApplicationRecord
     end
 
     if email
-      update(emails: [email]) if update
+      update(emails: [email], emails_available: 1) if update
       [email]
     else
       []
@@ -102,7 +102,8 @@ class Profile < ApplicationRecord
     notes = person.to_hash
     notes.delete(:search_pointer)
     notes.delete(:emails)
-    update(notes: notes, emails: person.emails.map(&:address)) if update
+    emails = person.emails.map(&:address)
+    update(notes: notes, emails: emails, emails_available: emails.size) if update
     emails
   end
 
@@ -137,7 +138,7 @@ class Profile < ApplicationRecord
       email = checker.find_right_email
 
       if email
-        update(emails: [email]) if update
+        update(emails: [email], emails_available: 1) if update
         [email]
       else
         []
@@ -165,9 +166,9 @@ class Profile < ApplicationRecord
         (ids - profiles.pluck(:linkedin_id)).each do |id|
           p = request[id]
           profile = Profile.create(linkedin_id: p.id, linkedin_url: "https://www.linkedin.com/profile/view?id=#{p.public_id}".freeze,
-                                   name: p.name, position: p.position, location: p.location, photo: p.photo, emails_available: emails_available)
+                                   name: p.name, position: p.position, location: p.location, photo: p.photo)
           profile.get_emails_from_google
-          hash[p.id] = profile.emails.size
+          hash[p.id] = profile.emails_available
         end
       when :facebook
 
