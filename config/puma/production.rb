@@ -64,7 +64,7 @@ plugin 'tmp_restart'
 #
 # The default is "0, 16".
 #
-threads 8, 32
+threads 8, 16
 
 # Bind the server to "url". "tcp://", "unix://" and "ssl://" are the only
 # accepted protocols.

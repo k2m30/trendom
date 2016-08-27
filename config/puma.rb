@@ -45,3 +45,9 @@ environment ENV.fetch('RAILS_ENV') { 'production' }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+pidfile '/home/deploy/puma.pid'
+state_path '/home/deploy/puma.state'
+stdout_redirect '/home/deploy/trendom.io/shared/log/puma_access.log', '/home/deploy/trendom.io/shared/log/puma_error.log', true
+bind 'unix:///home/deploy/trendom.sock'
+tag 'Trendom server Rails 5'
+
