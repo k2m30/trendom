@@ -77,7 +77,7 @@ class Profile < ApplicationRecord
 
     unless trusted?(domain)
       checker = EmailChecker.new([domain], [name])
-      email = checker.find_right_email
+      email = checker.check_email(email)
     end
 
     if email

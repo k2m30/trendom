@@ -31,17 +31,21 @@ class EmailChecker
   def find_right_email
     return nil if @mx_servers.empty?
 
-    email = nil
     @email_options.each do |e|
-      connect
-      if verify(e)
-        email = e
-        close_connection
-        break
-      end
-      close_connection
+      return e if check_email(e)
     end
-    email
+
+    nil
+  end
+
+  def check_email(e)
+    connect
+    if verify(e)
+      close_connection
+      return e
+    end
+    close_connection
+    nil
   end
 
   def list_mxs(domain)
