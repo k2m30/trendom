@@ -127,7 +127,7 @@ end
 
 task :puma_start => :environment do
   invoke :cd
-  queue! 'puma -C config/puma/production.rb'
+  queue! 'puma -C config/puma.rb'
 end
 
 task :puma_stop => :environment do
