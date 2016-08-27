@@ -42,22 +42,25 @@ class Profile < ApplicationRecord
   end
 
   def get_emails
-    return emails unless emails.empty?
+    unless emails.empty?
+      logger.info("#{emails}, already have")
+      return emails
+    end
 
     get_emails_from_trendom
     unless emails.empty?
-      logger.warn("#{emails}, found in TrendomDB")
+      logger.info("#{emails}, found in TrendomDB")
       return emails
     end
 
     get_emails_from_google
     unless emails.empty?
-      logger.warn("#{emails}, found in Google")
+      logger.info("#{emails}, found in Google")
       return emails
     end
 
     get_emails_from_pipl
-    logger.warn("#{emails}, found in Pipl")
+    logger.info("#{emails}, found in Pipl")
 
     return emails
   end
