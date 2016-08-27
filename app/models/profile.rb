@@ -156,8 +156,6 @@ class Profile < ApplicationRecord
 
   def self.get_emails_available(params)
     hash = {}
-    threads = []
-    new_profiles = []
     request = UserRequest.new(params)
     ids = request.ids
     case request.source
@@ -165,30 +163,14 @@ class Profile < ApplicationRecord
         profiles = Profile.where(linkedin_id: ids)
         hash = profiles.pluck(:linkedin_id, :emails_available).to_h
         (ids - profiles.pluck(:linkedin_id)).each do |id|
-          thread = Thread.new do
-            p = request[id]
-            emails_available = PiplDb.emails_available(name: p.name, account_id: "#{p.id}@linkedin".freeze)
-            hash[p.id] = emails_available
-
-            new_profiles << {linkedin_id: p.id, linkedin_url: "https://www.linkedin.com/profile/view?id=#{p.public_id}".freeze,
-                             name: p.name, position: p.position, location: p.location, photo: p.photo, emails_available: emails_available}
-          end
-          threads << thread
+          p = request[id]
+          profile = Profile.create(linkedin_id: p.id, linkedin_url: "https://www.linkedin.com/profile/view?id=#{p.public_id}".freeze,
+                                   name: p.name, position: p.position, location: p.location, photo: p.photo, emails_available: emails_available)
+          profile.get_emails_from_google
+          hash[p.id] = profile.emails.size
         end
-
       when :facebook
 
-    end
-    unless threads.empty?
-      threads.each(&:join)
-      while threads.map(&:status).uniq != [false] do
-        puts 'working'
-        sleep 0.5
-      end
-    end
-
-    new_profiles.each do |profile_hash|
-      Profile.create profile_hash
     end
     hash
   end
