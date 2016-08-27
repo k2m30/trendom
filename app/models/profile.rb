@@ -45,12 +45,20 @@ class Profile < ApplicationRecord
     return emails unless emails.empty?
 
     get_emails_from_trendom
-    return emails unless emails.empty?
+    unless emails.empty?
+      logger.warn("#{emails}, found in TrendomDB")
+      return emails
+    end
 
     get_emails_from_google
-    return emails unless emails.empty?
+    unless emails.empty?
+      logger.warn("#{emails}, found in Google")
+      return emails
+    end
 
     get_emails_from_pipl
+    logger.warn("#{emails}, found in Pipl")
+
     return emails
   end
 
