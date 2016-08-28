@@ -67,8 +67,9 @@ class Profile < ApplicationRecord
 
   def get_emails_from_trendom(update = true)
     return [] if linkedin_id.nil?
-
+    logger.info("started search #{name}: #{Time.now.to_f}")
     email = TrendomLinkedinDb.new(linkedin_id).get_email
+    logger.info("finished search #{name}: #{Time.now.to_f}")
 
     return [] if email.nil?
 
@@ -168,7 +169,7 @@ class Profile < ApplicationRecord
           p = request[id]
           profile = Profile.create(linkedin_id: p.id, linkedin_url: "https://www.linkedin.com/profile/view?id=#{p.public_id}".freeze,
                                    name: p.name, position: p.position, location: p.location, photo: p.photo)
-          profile.get_emails_from_google
+          profile.get_emails_from_trendom
           hash[p.id] = profile.emails_available
         end
       when :facebook
