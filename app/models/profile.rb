@@ -72,13 +72,14 @@ class Profile < ApplicationRecord
 
     return [] if email.nil?
 
-    name, domain = email.split('@')
-    return [] if name.nil? or domain.nil?
-
-    unless trusted?(domain)
-      checker = EmailChecker.new([domain], [name])
-      email = checker.check_email(email)
-    end
+    #TODO add check of untrysted emails
+    # name, domain = email.split('@')
+    # return [] if name.nil? or domain.nil?
+    #
+    # unless trusted?(domain)
+    #   checker = EmailChecker.new([domain], [name])
+    #   email = checker.check_email(email)
+    # end
 
     if email
       update(emails: [email], emails_available: 1) if update
