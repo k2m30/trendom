@@ -13,7 +13,7 @@ TRUSTED_DOMAINS = %w(gmail.com hotmail.com yahoo.com aol.com comcast.net yahoo.c
 class Profile < ApplicationRecord
   has_and_belongs_to_many :users
   serialize :notes, Hash
-  enum source: [:none, :trendom, :google, :pipl]
+  enum source: [:not_found, :trendom, :google, :pipl]
   validates_uniqueness_of :linkedin_id, :twitter_id, :facebook_id, allow_nil: true
 
   def apply_template(email_template_id)
