@@ -13,6 +13,7 @@ TRUSTED_DOMAINS = %w(gmail.com hotmail.com yahoo.com aol.com comcast.net yahoo.c
 class Profile < ApplicationRecord
   has_and_belongs_to_many :users
   serialize :notes, Hash
+  enum source: [:none, :trendom, :google, :pipl]
   validates_uniqueness_of :linkedin_id, :twitter_id, :facebook_id, allow_nil: true
 
   def apply_template(email_template_id)
@@ -73,7 +74,7 @@ class Profile < ApplicationRecord
 
     return [] if email.nil?
 
-    #TODO add check of untrysted emails
+    #TODO add check of untrusted emails
     # name, domain = email.split('@')
     # return [] if name.nil? or domain.nil?
     #
@@ -82,8 +83,10 @@ class Profile < ApplicationRecord
     #   email = checker.check_email(email)
     # end
 
+    _, domain = email.split('@')
+
     if email
-      update(emails: [email], emails_available: 1) if update
+      update(emails: [email], emails_available: 1, source: :trendom, verified: trusted?(domain) ? true : false) if update
       [email]
     else
       []
@@ -105,7 +108,7 @@ class Profile < ApplicationRecord
     notes.delete(:search_pointer)
     notes.delete(:emails)
     emails = person.emails.map(&:address)
-    update(notes: notes, emails: emails, emails_available: emails.size) if update
+    update(notes: notes, emails: emails, emails_available: emails.size, source: :pipl, verified: :false) if update
     emails
   end
 
@@ -140,7 +143,7 @@ class Profile < ApplicationRecord
       email = checker.find_right_email
 
       if email
-        update(emails: [email], emails_available: 1) if update
+        update(emails: [email], emails_available: 1, source: :google, verified: true) if update
         [email]
       else
         []

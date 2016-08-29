@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818070400) do
+ActiveRecord::Schema.define(version: 20160829074600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,9 @@ ActiveRecord::Schema.define(version: 20160818070400) do
     t.integer  "emails_available"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "emails",           default: [], array: true
+    t.text     "emails",           default: [],    array: true
+    t.integer  "source",           default: 0
+    t.boolean  "verified",         default: false
     t.index ["facebook_id"], name: "index_profiles_on_facebook_id", using: :btree
     t.index ["linkedin_id"], name: "index_profiles_on_linkedin_id", using: :btree
     t.index ["twitter_id"], name: "index_profiles_on_twitter_id", using: :btree

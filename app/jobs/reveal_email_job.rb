@@ -1,3 +1,5 @@
+#TODO https://github.com/steveklabnik/mono_logger
+
 class RevealEmailJob < ApplicationJob
   queue_as :default
 
