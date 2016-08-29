@@ -161,6 +161,7 @@ class Profile < ApplicationRecord
   end
 
   def self.get_emails_available(params)
+    #TODO add '-1' to hash when user already has this email
     hash = {}
     request = UserRequest.new(params)
     ids = request.ids
@@ -172,6 +173,7 @@ class Profile < ApplicationRecord
           p = request[id]
           profile = Profile.create(linkedin_id: p.id, linkedin_url: "https://www.linkedin.com/profile/view?id=#{p.public_id}".freeze,
                                    name: p.name, position: p.position, location: p.location, photo: p.photo)
+          #TODO send all them at once
           profile.get_emails_from_trendom
           hash[p.id] = profile.emails_available
         end
