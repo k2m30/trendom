@@ -47,7 +47,7 @@ environment ENV.fetch('RAILS_ENV') { 'production' }
 plugin :tmp_restart
 tag 'Trendom server Rails 5'
 
-unless Rails.env.development?
+unless ENV['RAILS_ENV'] == 'development'
   pidfile '/home/deploy/puma.pid'
   state_path '/home/deploy/puma.state'
   stdout_redirect '/home/deploy/trendom.io/shared/log/puma_access.log', '/home/deploy/trendom.io/shared/log/puma_error.log', true
