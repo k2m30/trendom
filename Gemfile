@@ -77,6 +77,7 @@ gem 'resque'
 
 gem 'haml-rails', '~> 0.9'
 gem 'typhoeus'
+gem 'mono_logger'
 
 group :production do
   gem 'rollbar'

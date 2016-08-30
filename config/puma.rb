@@ -9,7 +9,7 @@ threads threads_count, threads_count + 24
 
 # Specifies the `port` that Puma will listen on to receive requests, default is 3000.
 #
-port        ENV.fetch('PORT') { 3000 }
+port ENV.fetch('PORT') { 3000 }
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -45,11 +45,12 @@ environment ENV.fetch('RAILS_ENV') { 'production' }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
-pidfile '/home/deploy/puma.pid'
-state_path '/home/deploy/puma.state'
-stdout_redirect '/home/deploy/trendom.io/shared/log/puma_access.log', '/home/deploy/trendom.io/shared/log/puma_error.log', true
-bind 'unix:///home/deploy/trendom.sock'
 tag 'Trendom server Rails 5'
-daemonize
 
-
+unless Rails.env.development?
+  pidfile '/home/deploy/puma.pid'
+  state_path '/home/deploy/puma.state'
+  stdout_redirect '/home/deploy/trendom.io/shared/log/puma_access.log', '/home/deploy/trendom.io/shared/log/puma_error.log', true
+  bind 'unix:///home/deploy/trendom.sock'
+  daemonize
+end

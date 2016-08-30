@@ -15,6 +15,11 @@ class UsersController < ApplicationController
     redirect_to choose_plan_users_path
   end
 
+  def create_test_data
+    User.create_test_data
+    redirect_to users_path
+  end
+
   def choose_plan
   end
 

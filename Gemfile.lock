@@ -338,6 +338,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  mono_logger
   omniauth-google-oauth2
   pg
   piplapis-ruby

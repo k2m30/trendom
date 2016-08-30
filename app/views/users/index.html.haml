@@ -1,6 +1,9 @@
 %h1
   = @user.card_holder_name || @user.name
 
+-if @user.email == 'mikhail.chuprynski@gmail.com'
+  =link_to 'Create test data', create_test_data_users_path
+
 .row#user
   .col-md-2
     %img{src: @user.image, width: '100px'}
@@ -136,23 +139,29 @@
   .row#buttons
     .col-md-7
     .col-md-5(data-no-turbolink)
-      -if @user.active?
-        -if @user.profiles_with_revealed_emails.size > 0
-          = link_to download_users_path(format: :csv), class: 'btn btn-info', id: 'download' do
-            Download
-            = fa_icon 'download'
-          = link_to new_campaign_path, class: 'btn btn-default', id: 'new_campaign' do
-            Create new campaign
-            = fa_icon 'send'
+      -if @user.profiles_with_revealed_emails.size > 0
+        = link_to new_campaign_path, class: 'btn btn-default', id: 'new_campaign' do
+          Create new campaign
+          = fa_icon 'send'
+
+        = link_to download_users_path(format: :csv), class: 'btn btn-info', id: 'download' do
+          Download
+          = fa_icon 'download'
 
 
-        - if @user.profiles_with_hidden_emails.size > 0
-          = link_to '#reveal', class: 'btn btn-info', id: 'reveal', data: reveal_emails_users_path do
-            Reveal emails
-            = fa_icon 'search'
-      -else
+      - if @user.profiles_with_hidden_emails.size > 0
+        = link_to '#reveal', class: 'btn btn-info', id: 'reveal', data: reveal_emails_users_path do
+          Reveal emails
+          = fa_icon 'search'
+  -unless @user.active?
+    .row
+      .col-md-7
+      .col-md-5
+        %hr
+        %p
+          Choose subscription plan to continue revealing prospects
         = link_to edit_user_path(@user), class: 'btn btn-info' do
-          Choose subscription plan to download prospects
+          Choose plan
           = fa_icon 'download'
 - else
   .row

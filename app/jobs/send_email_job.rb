@@ -5,6 +5,9 @@ class SendEmailJob < ApplicationJob
 
   def perform(profile_id, campaign_id, user_email, token, user_name)
     begin
+      logger = MonoLogger.new('log/sending.log')
+      logger.level = MonoLogger::INFO
+
       profile = Profile.find(profile_id)
       campaign = Campaign.find(campaign_id)
       if Rails.env.production? or Rails.env.development?
@@ -18,14 +21,16 @@ class SendEmailJob < ApplicationJob
           from user_name if user_name.present?
         end
         email.deliver!
+        logger.info("sent from #{user_email} to #{profile.emails.first}")
         sleep rand(60..80)
       else
 
       end
-      progress = campaign.progress
       size = campaign.profiles_ids.size.to_f
-      campaign.update(progress: progress + (1.0/size*100.0).round(2))
-      campaign.update(sent: true) if campaign.progress >= 100.0
+
+      sql = "UPDATE campaigns SET progress = progress + #{1.0/size*100.0}, sent = CASE WHEN progress + #{1.0/size*100.0} >= 100.0 THEN true ELSE false END WHERE id = #{campaign_id};"
+      ActiveRecord::Base.connection.execute(sql)
+
     rescue => e
       logger.error [user_name, profile_id]
       logger.error e.message
