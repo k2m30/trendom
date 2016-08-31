@@ -40,7 +40,7 @@ class EmailTemplatesController < ApplicationController
   end
 
   def email_template_params
-    params.require(:email_template).permit(:name, :text, :id)
+    params.require(:email_template).permit(:name, :text, :id, :subject)
   end
 
 end

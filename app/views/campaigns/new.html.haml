@@ -1,7 +1,6 @@
 - fi = params[:fi] || []
 - campaign_name = params[:name] || "Email campaign, #{Time.now.to_formatted_s(:short)}, #{@profiles.size} emails"
 - email_template_id = params[:email_template_id] || @email_templates.first.id
-- subject = params[:subject] || 'Advice needed'
 .row
   .col-md-7
     %table.table.table-hover
@@ -28,6 +27,7 @@
     = bootstrap_form_tag url: campaigns_path do |f|
       - profile = params[:profile_id].nil? ? @profiles.first : @profiles.find(params[:profile_id])
       - if profile.present?
+        - subject, body = profile.apply_template(email_template_id)
         .row
           .col-md-7
             = f.text_field :name, value: campaign_name, label: 'Campaign name'
@@ -39,12 +39,14 @@
             =link_to 'Edit', email_templates_path(email_template_id: email_template_id)
         .row
           .col-md-7
-            = f.text_field :subject, value: subject
+            = label_tag 'Subject'
+            %p#subject
+              = subject
         .row
           .col-md-12#template-text
             = label_tag 'Body'
             %p#body
-              = profile.apply_template(email_template_id).gsub("\n",'<br/>').html_safe
+              = body.gsub("\n",'<br/>').html_safe
         .row
           %hr
           .col-md-6

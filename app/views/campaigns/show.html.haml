@@ -27,6 +27,7 @@
   .row
     .col-md-8
       - profile = @campaign.profiles.sample
+      - subject, body = profile.apply_template(@campaign.email_template_id)
       %table.table.table-bordered
         %thead
         %tbody
@@ -44,10 +45,10 @@
             %td
               Subject:
             %td
-              = @campaign.subject
+              = subject
           %tr
             %td{colspan: 2}
-              =profile.apply_template(@campaign.email_template_id).gsub("\n",'<br/>').html_safe
+              =body.gsub("\n",'<br/>').html_safe
 
 .row
   .col-md-8

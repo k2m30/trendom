@@ -13,10 +13,11 @@ class SendEmailJob < ApplicationJob
       if Rails.env.production? or Rails.env.development?
         gmail = Gmail.connect(:xoauth2, user_email, token)
         email = gmail.compose do
+          subject, body = profile.apply_template(campaign.email_template_id)
           to profile.emails.first
-          subject campaign.subject
+          subject subject
           text_part do
-            body profile.apply_template(campaign.email_template_id)
+            body body
           end
           from user_name if user_name.present?
         end

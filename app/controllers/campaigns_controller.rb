@@ -10,6 +10,7 @@ class CampaignsController < ApplicationController
     @campaign = current_user.campaigns.new
 
     @email_templates = current_user.email_templates
+    redirect_to new_email_template_path, alert: 'Create at least one email template first' if @email_templates.empty?
   end
 
   def index
@@ -25,6 +26,7 @@ class CampaignsController < ApplicationController
                                               email_template_id: current_user.email_templates.find(campaign_params[:email_template_id]).id,
                                               subject: campaign_params[:subject])
     @campaign.send_out if campaign_params[:send_later] == '0'
+    @email_template = current_user.email_templates.find(@campaign.email_template_id)
     render :show
   end
   def send_out
@@ -33,7 +35,7 @@ class CampaignsController < ApplicationController
   end
 
   def show
-
+    @email_template = current_user.email_templates.find(@campaign.email_template_id)
   end
 
   def destroy

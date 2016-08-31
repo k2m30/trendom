@@ -17,9 +17,15 @@ class Profile < ApplicationRecord
   validates_uniqueness_of :linkedin_id, :twitter_id, :facebook_id, allow_nil: true
 
   def apply_template(email_template_id)
-    first, last = split_name
     email_template = EmailTemplate.find(email_template_id)
-    email_template.text.gsub('{First Name}', first).gsub('{Last Name}', last).gsub('{Company}', extract_company).gsub('{Position}', extract_position)
+    body = apply(email_template.text)
+    subject = apply(email_template.subject)
+    return subject, body
+  end
+
+  def apply(text)
+    first, last = split_name
+    text.gsub('{First Name}', first).gsub('{Last Name}', last).gsub('{Company}', extract_company).gsub('{Position}', extract_position)
   end
 
   def set_primary_email(main_email)
