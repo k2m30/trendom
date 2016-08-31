@@ -16,11 +16,12 @@ RSpec.describe 'User' do
     expect(User.count).to eq(1)
 
     user = User.first
-    expect(user.calls_left).to eq(10)
+    expect(user.calls_left).to eq(80)
     expect(user.profiles.size).to eq(0)
     expect(Profile.count).to eq(7)
 
 
+    user.update(calls_left: 10)
     page.driver.post '/home/add_profiles', hash
     user.reload
     expect(user.calls_left).to eq(3)

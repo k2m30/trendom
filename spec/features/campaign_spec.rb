@@ -42,7 +42,7 @@ RSpec.feature Campaign, type: :feature do
     expect(user.profiles.size).to be(40)
     visit user_root_path
     expect(user.active?).to be(true)
-    expect(user.email_templates.size).to be 2
+    expect(user.email_templates.size).to be 13
 
     expect(all('.hidden-emails').size).to be 25
     expect(all('.visible-emails').size).to be 15

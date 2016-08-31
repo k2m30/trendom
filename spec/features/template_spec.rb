@@ -15,8 +15,8 @@ RSpec.feature EmailTemplate, type: :feature do
   let(:user) { User.first }
 
   it 'has initial templates' do
-    expect(user.email_templates.size).to be 2
-    expect(all('.template').size).to be 2
+    expect(user.email_templates.size).to be 13
+    expect(all('.template').size).to be 13
   end
 
   it 'can delete template' do
