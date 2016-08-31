@@ -1,4 +1,4 @@
-$(document).on 'ready page:load', ->
+$(document).on 'turbolinks:load', ->
   $('#reveal').click ->
     $('#reveal').fadeOut()
     $('.progress-window').fadeIn()
@@ -27,3 +27,6 @@ $(document).on 'ready page:load', ->
           return
       return
     ), 200)
+
+    $('.choice').click ->
+      this.value('click')

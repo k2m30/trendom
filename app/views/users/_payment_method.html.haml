@@ -37,5 +37,7 @@
     %input{name: 'country', type: 'hidden', value: @user.country}/
     %input{name: 'email', type: 'hidden', value: @user.billing_email}/
     %input{name: 'phone', type: 'hidden', value: @user.phone}/
-    %button.btn.btn-sm.btn-warning.choice{name: 'submit', type: 'submit', value: "Choose #{plan}"}
+    %button.btn.btn-sm.btn-warning.choice{name: 'submit', type: 'submit', value: "Choose #{plan}", onclick: "$('.choice').hide();$('##{plan}').fadeIn();"}
       ="Choose #{plan}"
+    %a.btn.btn-sm.btn-warning.spinner{style: 'display:none;', id: plan}
+      %i.fa.fa-circle-o-notch.fa-spin.fa-3x.fa-fw
