@@ -142,7 +142,6 @@
                     %li Contact hundreds of HRs
                     %li Inquire about best practicess
                     %li Get insights
-        = Haml::Engine.new(File.read('app/views/static/_table.html.haml')).render
         #start_section.row
           .col-xs-12.centeredContainer
             .white_area_block
@@ -164,6 +163,10 @@
           .col-xs-12.centeredContainer
             %a{href: '/'}
               %img{src: 'static/images/logo.png'}/
+        .row
+          .col-xs-12.centeredContainer
+            %a.default_text{href: '/sources.html'}
+              Our data sources and privacy policy
     / JS
     %script{src: 'static/js/plugins/on-scroll-effects/greensock/TweenMax.min.js', type: 'text/javascript'}
     %script{src: 'static/js/jquery-1.11.0.min.js', type: 'text/javascript'}
