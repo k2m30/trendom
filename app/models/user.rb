@@ -1,4 +1,5 @@
 require 'csv'
+require 'digest/md5'
 class User < ApplicationRecord
   devise :database_authenticatable, :trackable, :omniauthable, omniauth_providers: [:google_oauth2]
 
@@ -63,8 +64,7 @@ class User < ApplicationRecord
   # end
 
   def purchase(params)
-    return false unless check_md5_hash
-    if params['sid'].to_i == 202864835 and params['li_0_uid'] == uid
+    if check_md5_hash(params) and params['sid'].to_i == 202864835 and params['li_0_uid'] == uid
       next_payment = subscription_expires.nil? ? Time.now + 1.month : subscription_expires + 1.month
       case params['li_0_price'].to_f
         when 39.0
@@ -74,14 +74,19 @@ class User < ApplicationRecord
         when 279.0
           self.update(plan: 'Advanced', subscription_expires: next_payment, calls_left: calls_left + 2000)
       end
-      return true
+
+      true
+    else
+      logger.error('md5 hash doesn\'t match or wrong user')
+      logger.error(params)
+
+      false
     end
-    return false
   end
 
-  #TODO add md5 check
-  def check_md5_hash
-    true
+  def check_md5_hash(params)
+    Digest::MD5.hexdigest(ENV['CHECKOUT_SECRET'] + params['sid'] + params['order_number'] + params['total']).upcase == params['key'] ||
+    Digest::MD5.hexdigest(ENV['CHECKOUT_SECRET'] + params['sid'] + '1' + params['total']).upcase == params['key']
   end
 
   def add_profiles(params)

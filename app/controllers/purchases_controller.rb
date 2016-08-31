@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   skip_before_filter :verify_authenticity_token, only: [:index]
 
   def index
