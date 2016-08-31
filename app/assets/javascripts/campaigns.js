@@ -1,4 +1,4 @@
-$(document).on('ready page:load', function () {
+$(document).on('turbolinks:load', function () {
     $('#_email_template_id').change(function () {
         var value = $(this).find('option:selected').val();
         var current_url = $(this).attr('data-url');
