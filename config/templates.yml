@@ -1,0 +1,196 @@
+"Selling V1" :
+  subject: New platform
+  body: >
+    Hey {First Name},
+
+    I hope this email finds you well! I wanted to reach out because [explain how we got their contact information and how we relate to them: talked to a colleague, saw your company online, etc.].
+
+    [Name of company] has a new platform that will help (your team at) {Company}. [One sentence pitch of benefits]. We do this by:
+
+    Benefit/feature 1
+
+    Benefit/feature 2
+
+    Benefit/feature 3 (optional)
+
+    Let's explore how [name of your product / service] can specifically help your business. Are you available for a quick call [times and dates]?
+
+    Cheers,
+
+    {My Name}
+"Selling V2" :
+  subject: New platform [platform name]
+  body: >
+    Hey {First Name},
+
+    I hope this email finds you well! I wanted to reach out because [explain how we got their contact information and how we relate to them: talked to a colleague, saw your company online, etc.].
+
+    [Name of company] has a new platform that will help (your team at) [organization name]. [One sentence pitch of benefits].
+
+    I know that [our product] will be able to help [name of your company] [insert high level benefit here].
+
+    Are you available for a quick call [time and date]?
+
+    Cheers,
+
+    {My Name}
+"Selling V3" :
+  subject: [Problem]
+  body: >
+    Hi {First Name}
+
+    [InsertName] suggested I get in touch with you about some potential challenges you may be having with [problem].
+
+    Are you still the person who handles [activity]?
+
+    Best regards,
+
+    {My Name}
+"The very short, but works" :
+  subject: [Problem]
+  body: >
+    Hi {First Name}
+
+    Are you still looking for [their company's problem solution] ?
+
+    {My Name}
+"Best to start with V1" :
+  subject: Quick request
+  body: >
+    Hi {First Name}
+
+    I found your company via [linkedin, referal person, their blog post, etc] and wanted to touch base helping you get more people interested in [their company or product].
+
+    [short pitch about how they are already using FAQs, testimonials, a blog and so on, and how converting those to an active community + knowledge base can scale up those benefits. 1 short sentence about benefits of active communities]
+
+    [2 short sentences about mybema and how quality conversations will help their retention rates and how more fresh and relevant content on their own domain helps SEO]
+
+    [one liner about hitting me up if interested]
+
+    Thanks
+
+    {My Name}
+"Best to start with V2" :
+  subject: Trying to connect
+  body: >
+    Hi {First Name}
+    I recently read {Company} blog post [site, article] where you spoke about [].
+
+    My Name is {My Name} and although we never met, that is exactly the type of thing we help companies like {Company} [things they do] to do all the time.
+
+    You can see a demo here [or any other type of social proof - articles about you, mentions, well-know companies we helped, etc.]
+
+    {First Name}, is this of interest?
+"Questions to answer" :
+  subject: Quick question
+  body: >
+    Hi {First Name}
+
+    # Who are you?
+
+    [Seek Permission][I know you have a busy schedule, but.., I hope I'm not bothering you.., We haven’t met in person, but]
+
+    [Trust Signals]
+
+    # Why should I believe you? [Referrals, social proof, your customers, big projects, mention clients/Logos who you think I might know (industry leaders)]
+
+    # What exactly do you want from me? [Short description, exhibit authority and expertise using industry jargons, keywords and latest trends]
+
+    # What is in it for me? [Try to mention number. When mentioning numbers as provide more naturally occurring figures. In an expense report, financial statement, balance sheet or any similar reports so you see rounded figures like 100, 200, 50, etc. Above example - Our clients on an average saved £3.125M in 6 months.]
+
+    # How did you get my contacts? [linkedin, common friends, website, etc.]
+
+    [While scheduling an appointment, provide multiple open dates and time slots.]
+
+    [Its been proved that Earth is round. So be aware and honor time zone.]
+
+    [Don't push for Skype call just because you have it. Consider and be open to options.]
+
+    Thank you,
+
+    {My Name}
+"Referral V1" :
+  subject: Can you point me in the right direction?
+  body: >
+    Hi {First Name},
+
+    My name is {My Name} and I head up business development efforts with [my company]. We recently launched a new platform that [one sentence pitch].
+
+    I am taking an educated stab in the dark here, however based on your online profile, you appear to be an appropriate person to connect with ... or might at least point me in the right direction.
+
+    I’d like to speak with someone from [company] who is responsible for [handling something that's relevant to my product].
+
+    If that’s you, are you open to a fifteen minute call on _________ [time and date] to discuss ways the [company name] platform can specifically help your business? If not you, can you please put me in touch with the right person?
+
+    I appreciate the help!
+
+    Best,
+
+    {My Name}
+"Referral V2" :
+  subject: Advice needed
+  body: >
+    Hi {First Name},
+
+    I hope I'm not bothering you. Could you please refer me to the person in charge of [something that's relevant to my product]?
+
+    Thanks for your time,
+
+    {My Name}
+"Referral V3" :
+  subject: Proper person to talk to
+  body: >
+    Hey {First Name},
+
+    My name is {My Name} and I'm with [my company name]. We work with organizations like {Company} to [insert one sentence pitch].
+
+    [One sentence unique benefit].
+
+    Could you direct me to the right person to talk to about this at {Company} so we can explore if this would be something valuable to incorporate into your events?
+
+    Cheers,
+
+    {My Name}
+"Content" :
+  subject: More visibility of your blog in search result
+  body: >
+    Hi {First Name},
+
+    My name is {My Name}, and I am a member of the editorial team at [your website], [one sentence about your company].
+
+    My team and I have some amazing content that we would love to contribute to your site or blog.
+
+    Our team, which includes [Name 1], [Name 2], and our director, [Name 3], regularly contributes to [Some existing sites like Medium.com, Tech.co, Beforeitsnews.com, Lifehack.org, Mycustomer.com], and other {Industry} sites (links can be provided upon request). We believe that what we have to say about [problem] would resonate well with your readers.
+
+    We are not looking for payment for any of our content and would just like to know if and where we could send any potential editorials. Please contact me if you would be interested in partnering with us or have any questions.
+
+    Cheers,
+    {My Name}
+"Linkedin" :
+  subject: Referral from Linkedin regarding [product/service]
+  body: >
+    Hi {First Name},
+
+    I came across your profile on Linkedin - I’d be very interested to know if you are considering [your service] at {Company}?
+
+    If so, may I propose a short email exchange to see if it’s worth further discussions in how [your company name] can help and support you with these endeavors? If not, thank you for your time and consideration nonetheless.
+
+    Kind regards,
+    {My Name}
+"Linkedin 2" :
+  subject: help [product/service]
+  body: >
+    Hi {First Name},
+
+    I came across your profile investigating various industries on Linkedin where my team has built several projects, specifically [your projects].
+
+    You can read more about us on our website[link] and have a look at some examples of our work here[link].
+    I’d be very interested to know if you were in the process of considering [your service] for your company?
+
+    If so, may I propose a short email exchange to see if it’s worth further discussions in how [your company name] can help and support you with these endeavours. If not, thank you for your time and consideration nonetheless.
+
+    Please let me know your thoughts.
+
+    Best regards,
+    {My Name}
+#TODO add founders, investors, teammates, job finding emails
