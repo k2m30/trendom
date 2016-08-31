@@ -79,6 +79,7 @@ class User < ApplicationRecord
     return false
   end
 
+  #TODO add md5 check
   def check_md5_hash
     true
   end
@@ -103,7 +104,7 @@ class User < ApplicationRecord
     User.create(email: email,
                 password: Devise.friendly_token[0, 20],
                 uid: uid,
-                calls_left: 10,
+                calls_left: 80,
                 plan: 'Free',
                 subscription_expires: Time.now)
   end
@@ -117,7 +118,7 @@ class User < ApplicationRecord
                          email: data[:email],
                          password: Devise.friendly_token[0, 20],
                          image: data[:image],
-                         calls_left: 10,
+                         calls_left: 80,
                          plan: 'Free',
                          uid: access_token[:uid],
                          subscription_expires: Time.now)
