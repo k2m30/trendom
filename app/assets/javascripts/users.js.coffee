@@ -27,6 +27,3 @@ $(document).on 'turbolinks:load', ->
           return
       return
     ), 200)
-
-    $('.choice').click ->
-      this.value('click')
