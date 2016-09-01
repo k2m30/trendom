@@ -17,6 +17,7 @@ class Profile < ApplicationRecord
   validates_uniqueness_of :linkedin_id, :twitter_id, :facebook_id, allow_nil: true
 
   def apply_template(email_template_id)
+    #TODO add {My Name} placeholder
     email_template = EmailTemplate.find(email_template_id)
     body = apply(email_template.text)
     subject = apply(email_template.subject)
