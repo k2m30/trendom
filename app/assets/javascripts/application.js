@@ -11,6 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap-sprockets
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).on('turbolinks:load', function () {
+    $("#flash").fadeTo(2000, 500).slideUp(500, function () {
+        $("#flash").slideUp(500);
+    });
+});

@@ -1,5 +1,7 @@
 require 'csv'
 require 'digest/md5'
+require 'twocheckout'
+
 class User < ApplicationRecord
   devise :database_authenticatable, :trackable, :omniauthable, omniauth_providers: [:google_oauth2]
 
@@ -88,23 +90,21 @@ class User < ApplicationRecord
     Twocheckout::API.credentials = {
         username: ENV['CHECKOUT_USER'],
         password: ENV['CHECKOUT_PASSWORD'],
-        # :sandbox => 1   #Uncomment to use Sandbox
     }
-
     begin
       sale = Twocheckout::Sale.find(sale_id: order_number)
       sale.stop_recurring!
-      # last_invoice = sale.invoices.last
-      # last_lineitem = last_invoice.lineitems.last
-      # last_lineitem.stop_recurring!
+      update(plan: 'Free')
+      true
     rescue Exception => e
       logger.error e.message
+      false
     end
   end
 
   def check_md5_hash(params)
     Digest::MD5.hexdigest(ENV['CHECKOUT_SECRET'] + params['sid'] + params['order_number'] + params['total']).upcase == params['key'] ||
-    Digest::MD5.hexdigest(ENV['CHECKOUT_SECRET'] + params['sid'] + '1' + params['total']).upcase == params['key']
+        Digest::MD5.hexdigest(ENV['CHECKOUT_SECRET'] + params['sid'] + '1' + params['total']).upcase == params['key']
   end
 
   def add_profiles(params)

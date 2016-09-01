@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:add_profiles, :test] #unless Rails.env.development?
+  before_action :authenticate_user!, except: [:add_profiles] #unless Rails.env.development?
   before_action :set_user
   skip_before_action :verify_authenticity_token, only: [:download, :add_profiles]
 
@@ -24,8 +24,12 @@ class UsersController < ApplicationController
   end
 
   def cancel_subscription
-    @user.cancel_subscription
-    redirect_to choose_plan_users_path
+    result = current_user.stop_recurring!
+    if result
+      redirect_to choose_plan_users_path
+    else
+      redirect_to choose_plan_users_path, alert: 'Cannot cancel subscription'
+    end
   end
 
   def remove_profile
