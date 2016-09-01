@@ -62,7 +62,6 @@ group :development, :test do
   gem 'capybara'
   gem 'rspec-rails'
   gem 'faker'
-  gem 'curb'
 end
 
 #authentication
@@ -78,6 +77,7 @@ gem 'resque'
 gem 'haml-rails', '~> 0.9'
 gem 'typhoeus'
 gem 'mono_logger'
+gem 'twocheckout'
 
 group :production do
   gem 'rollbar'

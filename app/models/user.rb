@@ -68,11 +68,11 @@ class User < ApplicationRecord
       next_payment = subscription_expires.nil? ? Time.now + 1.month : subscription_expires + 1.month
       case params['li_0_price'].to_f
         when 39.0
-          self.update(plan: 'Light', subscription_expires: next_payment, calls_left: calls_left + 80)
+          self.update(plan: 'Light', subscription_expires: next_payment, calls_left: calls_left + 80, order_number: params['order_number'])
         when 99.0
-          self.update(plan: 'Standard', subscription_expires: next_payment, calls_left: calls_left + 250)
+          self.update(plan: 'Standard', subscription_expires: next_payment, calls_left: calls_left + 250, order_number: params['order_number'])
         when 279.0
-          self.update(plan: 'Advanced', subscription_expires: next_payment, calls_left: calls_left + 2000)
+          self.update(plan: 'Advanced', subscription_expires: next_payment, calls_left: calls_left + 2000, order_number: params['order_number'])
       end
 
       true
@@ -81,6 +81,24 @@ class User < ApplicationRecord
       logger.error(params)
 
       false
+    end
+  end
+
+  def stop_recurring!
+    Twocheckout::API.credentials = {
+        username: ENV['CHECKOUT_USER'],
+        password: ENV['CHECKOUT_PASSWORD'],
+        # :sandbox => 1   #Uncomment to use Sandbox
+    }
+
+    begin
+      sale = Twocheckout::Sale.find(sale_id: order_number)
+      sale.stop_recurring!
+      # last_invoice = sale.invoices.last
+      # last_lineitem = last_invoice.lineitems.last
+      # last_lineitem.stop_recurring!
+    rescue Exception => e
+      logger.error e.message
     end
   end
 
