@@ -1,6 +1,8 @@
 # require 'resque/server'
 
 Rails.application.routes.draw do
+  get 'verification/linkedin'
+
   root to: 'users#index'
 
   resources :profiles, only: [:edit, :update] do
@@ -48,6 +50,11 @@ Rails.application.routes.draw do
     member do
       post 'send', to: 'campaigns#send_out'
     end
+  end
+
+  namespace :verification do
+    post 'linkedin', to: 'verification#linkedin'
+    get 'linkedin', to: 'verification#linkedin'
   end
 
   post '/people/find', to: 'profiles#get_emails_available'
