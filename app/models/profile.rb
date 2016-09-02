@@ -61,14 +61,14 @@ class Profile < ApplicationRecord
       return emails
     end
 
-    get_emails_from_google
-    unless emails.empty?
-      logger.info("#{emails}, found in Google")
-      return emails
-    end
-
-    get_emails_from_pipl
-    logger.info("#{emails}, found in Pipl")
+    # get_emails_from_google
+    # unless emails.empty?
+    #   logger.info("#{emails}, found in Google")
+    #   return emails
+    # end
+    #
+    # get_emails_from_pipl
+    # logger.info("#{emails}, found in Pipl")
 
     return emails
   end
