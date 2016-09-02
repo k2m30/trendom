@@ -61,4 +61,8 @@ Rails.application.routes.draw do
 
   post 'purchase', to: 'purchases#index'
   # get 'purchase', to: 'purchases#index'
+
+  match '*any', to: 'not_found#any', via: [:get, :post]
+
+
 end
