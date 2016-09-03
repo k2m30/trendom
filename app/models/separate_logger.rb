@@ -3,8 +3,8 @@ class SeparateLogger < ActiveSupport::Logger
 
   def initialize(*args)
     super(*args)
-    @error_log = Logger.new(Rails.root.join('log', 'errors.log'))
-    @not_found_log = Logger.new(Rails.root.join('log', 'not_found.log'))
+    @error_log = Logger.new(Rails.root.join('log', 'errors.log'), 1, 50 * 1024 * 1024)
+    @not_found_log = Logger.new(Rails.root.join('log', 'not_found.log'), 1, 50 * 1024 * 1024)
   end
 
   def error(progname = nil, &block)

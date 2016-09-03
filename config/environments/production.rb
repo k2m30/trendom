@@ -44,7 +44,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.logger = SeparateLogger.new(Rails.root.join('log', "#{Rails.env}.log"))
+  config.logger = SeparateLogger.new(config.paths['log'].first, 1, 50 * 1024 * 1024)
   config.log_level = :warn
 
   # Prepend all log lines with the following tags.
