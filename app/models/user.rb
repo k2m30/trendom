@@ -167,7 +167,7 @@ class User < ApplicationRecord
       if Rails.env.test?
         RevealEmailJob.set(queue: :test).perform_now(id, profile.id, (1/work_size.to_f*100.0).round(2))
       else
-        RevealEmailJob.set(queue: name.to_sym).perform_later(id, profile.id, (1/work_size.to_f*100.0).round(2))
+        RevealEmailJob.set(queue: self.name.to_sym).perform_later(id, profile.id, (1/work_size.to_f*100.0).round(2))
       end
     end
     work_size
