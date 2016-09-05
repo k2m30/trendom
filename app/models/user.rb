@@ -174,11 +174,12 @@ class User < ApplicationRecord
   end
 
   def export_profiles(options = {})
-    columns = %w(name position photo location emails notes linkedin_url twitter_url facebook_url)
+    columns = %w(name position email location linkedin_url photo)
     CSV.generate(options) do |csv|
       csv << columns.map(&:capitalize)
       profiles_with_revealed_emails.each do |profile|
-        csv << profile.attributes.values_at(*columns)
+        line = [profile.name, profile.position, profile.emails.first, profile.location, profile.linkedin_url, profile.photo]
+        csv << line
       end
     end
   end
