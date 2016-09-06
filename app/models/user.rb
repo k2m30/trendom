@@ -113,7 +113,11 @@ class User < ApplicationRecord
       when :linkedin
         profiles_to_add = Profile.where(linkedin_id: request.ids - self.profile_ids)
         profiles_to_add.each do |profile|
-          self.profiles << profile unless self.profiles.exists?(profile.id)
+          begin
+            self.profiles << profile unless self.profiles.exists?(profile.id)
+          rescue ActiveRecord::RecordInvalid => e
+            logger.fatal(e.message)
+          end
         end
       when :facebook
       when :twitter

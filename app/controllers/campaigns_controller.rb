@@ -3,7 +3,7 @@ class CampaignsController < ApplicationController
   before_action :set_campaign, only: [:show, :destroy, :send_out]
 
   def new
-    @profiles = current_user.profiles_not_contacted.where.not(id: params[:fi]).limit(100) & current_user.profiles_not_in_campaigns
+    @profiles = (current_user.profiles_not_contacted.where.not(id: params[:fi]) & current_user.profiles_not_in_campaigns).take 100
     if @profiles.empty?
       redirect_to user_root_path, alert: 'There is no emails to create campaign. Mine some first.'
     end
