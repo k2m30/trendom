@@ -111,15 +111,15 @@ class User < ApplicationRecord
     request = UserRequest.new(params)
     case request.source
       when :linkedin
-        profiles = Profile.where(linkedin_id: request.ids)
-        profiles.each do |profile|
-          self.profiles << profile unless self.profiles.include?(profile)
+        profiles_to_add = Profile.where(linkedin_id: request.ids - self.profile_ids)
+        profiles_to_add.each do |profile|
+          self.profiles << profile unless self.profiles.exists?(profile.id)
         end
       when :facebook
       when :twitter
     end
     work_size = reveal_emails
-    self.save if changed?
+    # self.save if changed?
     work_size
   end
 
