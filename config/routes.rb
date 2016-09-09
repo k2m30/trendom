@@ -52,8 +52,8 @@ Rails.application.routes.draw do
   end
 
   namespace :verification do
-    post 'linkedin', to: 'verification#linkedin'
-    get 'linkedin', to: 'verification#linkedin'
+    post 'linkedin', to: 'linkedin'
+    get 'linkedin', to: 'linkedin'
   end
 
   post '/people/find', to: 'profiles#get_emails_available'
