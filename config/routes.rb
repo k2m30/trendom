@@ -1,7 +1,6 @@
 # require 'resque/server'
 
 Rails.application.routes.draw do
-  get 'verification/linkedin'
 
   root to: 'users#index'
 
