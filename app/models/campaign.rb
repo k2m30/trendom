@@ -7,12 +7,10 @@ class Campaign < ApplicationRecord
   # serialize :profiles_ids
 
   def send_out
-    profiles.each do |profile|
-      if Rails.env.test? #or Rails.env.development?
-        SendEmailJob.set(queue: 'test').perform_now(profile.id, id, user.email, user.tkn, user.name)
-      else
-        SendEmailJob.set(queue: user.name.to_sym).perform_later(profile.id, id, user.email, user.tkn, user.name)
-      end
+    if Rails.env.test? #or Rails.env.development?
+      SendBatchEmailsJob.set(queue: 'test').perform_now(profiles_ids, id, user.email, user.tkn, user.name)
+    else
+      SendBatchEmailsJob.set(queue: user.name.to_sym).perform_later(profiles_ids, id, user.email, user.tkn, user.name)
     end
   end
 
