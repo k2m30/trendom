@@ -117,6 +117,7 @@ class User < ApplicationRecord
             self.profiles << profile unless self.profiles.exists?(profile.id)
           rescue ActiveRecord::RecordInvalid => e
             logger.fatal(e.message)
+            logger.fatal(params)
           end
         end
       when :facebook
@@ -171,7 +172,8 @@ class User < ApplicationRecord
       if Rails.env.test?
         RevealEmailJob.set(queue: :test).perform_now(id, profile.id, (1/work_size.to_f*100.0).round(2))
       else
-        RevealEmailJob.set(queue: self.name.to_sym).perform_later(id, profile.id, (1/work_size.to_f*100.0).round(2))
+        queue_name = (self.name || self.email).to_sym
+        RevealEmailJob.set(queue: queue_name).perform_later(id, profile.id, (1/work_size.to_f*100.0).round(2))
       end
     end
     work_size

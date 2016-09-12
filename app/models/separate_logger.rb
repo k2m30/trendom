@@ -25,6 +25,7 @@ class SeparateLogger < ActiveSupport::Logger
 
   protected
   def clear(progname)
+    progname = progname.is_a?(String) ? progname : progname.inspect
     if progname.split("\n").size > 1
       log_str = progname.split("\n").delete_if { |s| s[/\.rb:\d+:in/] and s[/\slib\/.*\.rb:\d+:in\s/] }.join("\n")
       log_str+="\n" unless log_str.ends_with?("\n")

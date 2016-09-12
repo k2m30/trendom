@@ -49,20 +49,12 @@ class UsersController < ApplicationController
     if @user.nil?
       render nothing: true, status: :unauthorized
     else
-      begin
-        delta = @user.add_profiles(params)
-        hash = {}
-        hash[:status] = {}
-        hash[:status][:calls_left] = @user.calls_left - delta
-        logger.debug(hash.to_json) if Rails.env.development?
-        render json: hash.to_json
-      rescue NoMethodError => e
-        logger.fatal e.message
-        logger.fatal params
-        logger.fatal @user.inspect
-        logger.fatal e.backtrace[0..4]
-        raise NoMethodError('undefined method `to_sym\' for nil:NilClass')
-      end
+      delta = @user.add_profiles(params)
+      hash = {}
+      hash[:status] = {}
+      hash[:status][:calls_left] = @user.calls_left - delta
+      logger.debug(hash.to_json) if Rails.env.development?
+      render json: hash.to_json
     end
   end
 
@@ -92,7 +84,7 @@ class UsersController < ApplicationController
 
   def set_user
     if params[:uid].present? and params[:email].present?
-      @user = User.find_by(uid: params[:uid], email: params[:email]) || User.create_with_uid_and_email(uid: params[:uid], email: params[:email])
+      @user = User.find_by(uid: params[:uid], email: params[:email]) || User.create_with_uid_and_email(params[:uid], params[:email])
     else
       @user = current_user
     end
