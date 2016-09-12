@@ -8,7 +8,7 @@ require 'google_custom_search_api'
 TWO_PART_DOMAINS = %w(ac.at ac.il ac.uk apc.org asn.au att.com att.net boi.ie bp.com cmu.edu co.com co.gg co.il co.im co.in co.je co.jp co.nz co.th co.uk co.ukc co.za co.zw com.ar com.au com.bh com.br com.cn com.cy com.gt com.hk com.mk com.mt com.mx com.ng com.pk com.pt com.qa com.sg com.tr com.ua dcu.ie dsv.com edu.ge edu.in edu.tr eu.com ey.com gb.com ge.com gm.com gov.au gov.im gov.uk gt.com gwu.edu hhs.se hse.fi ibm.com ie.edu in.gov in.ua ing.com jnj.com ko.com kth.se kwe.com lls.com ltd.uk me.uk mit.edu mod.uk mps.it msn.com net.au net.il net.lb net.nz net.tr net.uk nhs.uk nyc.gov org.pl org.qa org.uk pkf.com plc.uk pwc.com rlb.com rr.com sas.com tac.com tcd.ie to.it uk.com uk.net unc.edu ups.com us.com utc.com yr.com)
 
 #TODO add masks like yhahoo.com.rb etc
-TRUSTED_DOMAINS = %w(gmail.com hotmail.com yahoo.com aol.com comcast.net yahoo.co.in msn.com sbcglobal.net rediffmail.com yahoo.fr yahoo.co.uk live.com yahoo.com.br hotmail.co.uk verizon.net hotmail.fr ymail.com cox.net bellsouth.net libero.it att.net yahoo.es btinternet.com mail.ru googlemail.com earthlink.net mac.com yahoo.in yahoo.ca hotmail.it charter.net yahoo.com.ar ig.com.br me.com wanadoo.fr 163.com yahoo.it optonline.net uol.com.br rogers.com yahoo.com.mx shaw.ca orange.fr rocketmail.com free.fr gmx.de web.de terra.com.br hotmail.es sympatico.ca bigpond.com yahoo.co.id alice.it bol.com.br live.co.uk live.fr)
+TRUSTED_DOMAINS = %w(gmail.com hotmail.com aol.com comcast.net msn.com sbcglobal.net rediffmail.com live.com hotmail.co.uk verizon.net hotmail.fr ymail.com cox.net bellsouth.net libero.it att.net btinternet.com mail.ru googlemail.com earthlink.net mac.com hotmail.it charter.net ig.com.br me.com wanadoo.fr 163.com optonline.net uol.com.br rogers.com shaw.ca orange.fr rocketmail.com free.fr gmx.de web.de terra.com.br hotmail.es sympatico.ca bigpond.com alice.it bol.com.br live.co.uk live.fr)
 
 class Profile < ApplicationRecord
   has_and_belongs_to_many :users
@@ -179,7 +179,7 @@ class Profile < ApplicationRecord
         (ids - profiles.pluck(:linkedin_id)).each do |id|
           p = request[id]
           profile = Profile.create(linkedin_id: p.id, linkedin_url: "https://www.linkedin.com/profile/view?id=#{p.public_id}".freeze,
-                                   name: p.name, position: p.position, location: p.location, photo: p.photo)
+                                   name: p.name, position: p.position, location: p.location, photo: p.photo, emails_available: 0)
           #TODO send all them at once
           profile.get_emails_from_trendom
           hash[p.id] = profile.emails_available
