@@ -49,12 +49,20 @@ class UsersController < ApplicationController
     if @user.nil?
       render nothing: true, status: :unauthorized
     else
-      delta = @user.add_profiles(params)
-      hash = {}
-      hash[:status] = {}
-      hash[:status][:calls_left] = @user.calls_left - delta
-      logger.debug(hash.to_json) if Rails.env.development?
-      render json: hash.to_json
+      begin
+        delta = @user.add_profiles(params)
+        hash = {}
+        hash[:status] = {}
+        hash[:status][:calls_left] = @user.calls_left - delta
+        logger.debug(hash.to_json) if Rails.env.development?
+        render json: hash.to_json
+      rescue NoMethodError => e
+        logger.fatal e.message
+        logger.fatal params
+        logger.fatal @user.inspect
+        logger.fatal e.backtrace[0..4]
+        raise NoMethodError('undefined method `to_sym\' for nil:NilClass')
+      end
     end
   end
 
