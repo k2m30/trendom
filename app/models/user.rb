@@ -117,6 +117,8 @@ class User < ApplicationRecord
             self.profiles << profile unless self.profiles.exists?(profile.id)
           rescue ActiveRecord::RecordInvalid => e
             logger.fatal(e.message)
+            logger.fatal(profile)
+            logger.fatal(self.profiles.map(&:linkedin_id))
             logger.fatal(params)
           end
         end
