@@ -7,6 +7,8 @@ class SendBatchEmailsJob < ApplicationJob
     logger = MonoLogger.new('log/sending.log')
     logger.level = MonoLogger::INFO
 
+    logger.info([profile_ids, campaign_id, user_email, token, user_name])
+
     profiles = Profile.where(id: profile_ids)
     campaign = Campaign.find(campaign_id)
     campaign_size = campaign.profiles_ids.size.to_f
