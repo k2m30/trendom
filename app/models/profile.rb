@@ -81,23 +81,13 @@ class Profile < ApplicationRecord
 
     return [] if email.nil?
 
-    #TODO add check of untrusted emails
-    # name, domain = email.split('@')
-    # return [] if name.nil? or domain.nil?
-    #
-    # unless trusted?(domain)
-    #   checker = EmailChecker.new([domain], [name])
-    #   email = checker.check_email(email)
-    # end
+    name, domain = email.split('@')
+    return [] if name.nil? or domain.nil?
 
-    _, domain = email.split('@')
+    update(emails: [email], emails_available: 1, source: :trendom, verified: trusted?(domain) ? true : false) if update
+    TrendomEmailVerificationService.new([{id: linkedin_id, email: email}]).call unless trusted?(domain)
 
-    if email
-      update(emails: [email], emails_available: 1, source: :trendom, verified: trusted?(domain) ? true : false) if update
-      [email]
-    else
-      []
-    end
+    [email]
   end
 
   def get_emails_from_pipl(update = true)
