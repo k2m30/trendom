@@ -39,10 +39,6 @@ class User < ApplicationRecord
     active
   end
 
-  # def enough_calls?
-  #   calls_left >= profiles_with_hidden_emails.size
-  # end
-
   def profiles_with_revealed_emails
     profiles.where(id: revealed_ids)
   end
@@ -60,10 +56,6 @@ class User < ApplicationRecord
     ids = campaigns.pluck(:profiles_ids)
     profiles.where.not(id: ids.flatten)
   end
-
-  # def download
-  #   self.profiles
-  # end
 
   def purchase(params)
     if check_md5_hash(params) and params['sid'].to_i == 202864835 and params['li_0_uid'] == uid
@@ -125,7 +117,6 @@ class User < ApplicationRecord
       when :twitter
     end
     work_size = reveal_emails
-    # self.save if changed?
     work_size
   end
 
