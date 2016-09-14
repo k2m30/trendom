@@ -34,7 +34,7 @@ class VerificationController < ApplicationController
         end
       end
     elsif params['status'] == 'Failed'
-      profile.failed!
+      profile.update(notes: params['verification'].permit!.to_h, verified: :failed)
     end
     render plain: params.permit!.to_h, status: :ok
     return

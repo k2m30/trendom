@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-def seed(n = 20)
+def seed_two_users(n = 20)
   User.create_with_uid_and_email('11234', 'mikhail.chuprynski@gmail.com')
   User.create_with_uid_and_email('1234', '1mikhail.chuprynski@gmail.com')
   # User.create_with_uid_and_email('234', '11mikhail.chuprynski@gmail.com')
@@ -31,7 +31,7 @@ end
 
 RSpec.describe 'Verification' do
   it 'verifies correct email' do
-    seed
+    seed_two_users
     expect(User.count).to be 2
     expect(Profile.count).to be 20
     expect(Campaign.count).to be > 2
@@ -53,7 +53,7 @@ RSpec.describe 'Verification' do
   end
 
   it 'verifies incorrect email' do
-    seed
+    seed_two_users
     expect(User.count).to be 2
     expect(Profile.count).to be 20
     expect(Campaign.count).to be >= 2
@@ -105,7 +105,7 @@ RSpec.describe 'Verification' do
   end
 
   it 'verifies failed email' do
-    seed
+    seed_two_users
     expect(User.count).to be 2
     expect(Profile.count).to be 20
     expect(Campaign.count).to be >= 2
