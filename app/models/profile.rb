@@ -7,9 +7,6 @@ require 'google_custom_search_api'
 #TODO add more domains from file
 TWO_PART_DOMAINS = %w(ac.at ac.il ac.uk apc.org asn.au att.com att.net boi.ie bp.com cmu.edu co.com co.gg co.il co.im co.in co.je co.jp co.nz co.th co.uk co.ukc co.za co.zw com.ar com.au com.bh com.br com.cn com.cy com.gt com.hk com.mk com.mt com.mx com.ng com.pk com.pt com.qa com.sg com.tr com.ua dcu.ie dsv.com edu.ge edu.in edu.tr eu.com ey.com gb.com ge.com gm.com gov.au gov.im gov.uk gt.com gwu.edu hhs.se hse.fi ibm.com ie.edu in.gov in.ua ing.com jnj.com ko.com kth.se kwe.com lls.com ltd.uk me.uk mit.edu mod.uk mps.it msn.com net.au net.il net.lb net.nz net.tr net.uk nhs.uk nyc.gov org.pl org.qa org.uk pkf.com plc.uk pwc.com rlb.com rr.com sas.com tac.com tcd.ie to.it uk.com uk.net unc.edu ups.com us.com utc.com yr.com)
 
-#TODO add masks like yhahoo.com.rb etc
-TRUSTED_DOMAINS = %w(gmail.com hotmail.com aol.com comcast.net msn.com sbcglobal.net rediffmail.com live.com hotmail.co.uk verizon.net hotmail.fr ymail.com cox.net bellsouth.net libero.it att.net btinternet.com mail.ru googlemail.com earthlink.net mac.com hotmail.it charter.net ig.com.br me.com wanadoo.fr 163.com optonline.net uol.com.br rogers.com shaw.ca orange.fr rocketmail.com free.fr gmx.de web.de terra.com.br hotmail.es sympatico.ca bigpond.com alice.it bol.com.br live.co.uk live.fr)
-
 class Profile < ApplicationRecord
   has_and_belongs_to_many :users
   serialize :notes, Hash
@@ -86,8 +83,8 @@ class Profile < ApplicationRecord
     name, domain = email.split('@')
     return [] if name.nil? or domain.nil?
 
-    update(emails: [email], emails_available: 1, source: :trendom, verified: trusted?(domain) ? true : false) if update
-    TrendomEmailVerificationService.new([{id: linkedin_id, email: email}]).call unless trusted?(domain)
+    update(emails: [email], emails_available: 1, source: :trendom) if update
+    TrendomEmailVerificationService.new([{id: linkedin_id, email: email}]).call
 
     [email]
   end
@@ -107,7 +104,7 @@ class Profile < ApplicationRecord
     notes.delete(:search_pointer)
     notes.delete(:emails)
     emails = person.emails.map(&:address)
-    update(notes: notes, emails: emails, emails_available: emails.size, source: :pipl, verified: :false) if update
+    update(notes: notes, emails: emails, emails_available: emails.size, source: :pipl) if update
     emails
   end
 
@@ -142,7 +139,7 @@ class Profile < ApplicationRecord
       email = checker.find_right_email
 
       if email
-        update(emails: [email], emails_available: 1, source: :google, verified: true) if update
+        update(emails: [email], emails_available: 1, source: :google) if update
         [email]
       else
         []
@@ -186,7 +183,4 @@ class Profile < ApplicationRecord
     TWO_PART_DOMAINS.any? { |tp| domain[/#{tp}$/] }
   end
 
-  def trusted?(domain)
-    TRUSTED_DOMAINS.include?(domain)
-  end
 end
