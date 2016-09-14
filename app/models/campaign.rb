@@ -8,9 +8,9 @@ class Campaign < ApplicationRecord
 
   def send_out
     if Rails.env.test? #or Rails.env.development?
-      SendBatchEmailsJob.set(queue: 'test').perform_now(profiles_ids, id, user.email, user.tkn, user.name)
+      SendBatchEmailsJob.set(queue: 'test').perform_now(id, user.email, user.tkn, user.name)
     else
-      SendBatchEmailsJob.set(queue: user.name.to_sym).perform_later(profiles_ids, id, user.email, user.tkn, user.name)
+      SendBatchEmailsJob.set(queue: user.name.to_sym).perform_later(id, user.email, user.tkn, user.name)
     end
   end
 
