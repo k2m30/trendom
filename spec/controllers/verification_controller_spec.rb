@@ -65,16 +65,14 @@ RSpec.describe 'Verification' do
 
     profile = Profile.find_by(linkedin_id: linkedin_id)
 
-    hash = {'socialType' => 'linkedin',
-            'email' => 'seanl@proact.se',
-            'errors' => ['Unverifiable -> None'],
-            'id' => linkedin_id,
-            'status' => 'Failed',
-            'verification' => {'socialType' => 'linkedin',
-                               'email' => 'seanl@proact.se',
-                               'errors' => ['Unverifiable -> None'],
-                               'id' => linkedin_id,
-                               'status' => 'Failed'
+    hash = {'id' => linkedin_id,
+            'socialType' => 'linkedin',
+            'email' => 'team2@trendom.io',
+            'status' => 'NotVerified',
+            'verification' => {'id' => linkedin_id,
+                               'socialType' => 'linkedin',
+                               'email' => 'team2@trendom.io',
+                               'status' => 'NotVerified'
             }
     }
 
@@ -101,8 +99,61 @@ RSpec.describe 'Verification' do
     end
 
     expect(Profile.count).to be 20
+    expect(Profile.find_by(linkedin_id: linkedin_id).not_verified?).to be true
 
 
+  end
+
+  it 'verifies failed email' do
+    seed
+    expect(User.count).to be 2
+    expect(Profile.count).to be 20
+    expect(Campaign.count).to be >= 2
+
+    calls_left1 = User.first.calls_left
+    calls_left2 = User.last.calls_left
+
+    linkedin_id = 1
+    profile = Profile.find_by(linkedin_id: linkedin_id)
+
+    hash = {'socialType' => 'linkedin',
+            'email' => 'seanl@proact.se',
+            'errors' => ['Unverifiable -> None'],
+            'id' => linkedin_id,
+            'status' => 'Failed',
+            'verification' => {'socialType' => 'linkedin',
+                               'email' => 'seanl@proact.se',
+                               'errors' => ['Unverifiable -> None'],
+                               'id' => linkedin_id,
+                               'status' => 'Failed'
+            }
+    }
+
+    page.driver.post '/verification/linkedin', hash
+
+    expect(User.first.calls_left - calls_left1).to be 0
+    expect(User.last.calls_left - calls_left2).to be 0
+
+    expect(User.first.profiles.include? profile).to be true
+    expect(User.last.profiles.include? profile).to be true
+
+    expect(User.first.profiles.size).to be 20
+    expect(User.last.profiles.size).to be 20
+
+    expect(User.first.revealed_ids.include? profile.id).to be true
+    expect(User.last.revealed_ids.include? profile.id).to be true
+
+    User.first.campaigns.each do |campaign|
+      expect(campaign.profiles_ids.include?(profile.id)).to be true
+    end
+
+    User.last.campaigns.each do |campaign|
+      expect(campaign.profiles_ids.include?(profile.id)).to be true
+    end
+
+    expect(Profile.count).to be 20
+
+    expect(Profile.find_by(linkedin_id: linkedin_id).failed?).to be true
   end
 
 end

@@ -11,12 +11,12 @@ class VerificationController < ApplicationController
     end
 
     if params['status'] == 'Verified'
-      profile.update(verified: true)
+      profile.verified!
     elsif params['status'] == 'NotVerified'
       ActiveRecord::Base.transaction do
         profile.emails = profile.emails - [params['email']]
         profile.emails_available = profile.emails.size
-        profile.verified = false
+        profile.verified = :not_verified
         profile.save
 
         users = profile.users
@@ -33,8 +33,9 @@ class VerificationController < ApplicationController
           user.save
         end
       end
+    elsif params['status'] == 'Failed'
+      profile.failed!
     end
-    logger.warn params.permit!.to_h
     render plain: params.permit!.to_h, status: :ok
     return
   end

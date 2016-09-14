@@ -14,6 +14,8 @@ class Profile < ApplicationRecord
   has_and_belongs_to_many :users
   serialize :notes, Hash
   enum source: [:not_found, :trendom, :google, :pipl]
+  enum verified: [:not_checked, :verified, :not_verified, :failed]
+
   validates_uniqueness_of :linkedin_id, :twitter_id, :facebook_id, allow_nil: true
 
   def apply_template(email_template_id)
