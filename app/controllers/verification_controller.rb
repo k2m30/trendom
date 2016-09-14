@@ -14,6 +14,7 @@ class VerificationController < ApplicationController
     else
       ActiveRecord::Base.transaction do
         profile.emails = profile.emails - [params['email']]
+        profile.emails_available = profile.emails.size
         profile.verified = false
         profile.save
 
