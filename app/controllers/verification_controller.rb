@@ -7,11 +7,12 @@ class VerificationController < ApplicationController
       logger.fatal('Something wrong with validation')
       logger.fatal(params)
       render plain: params.permit!.to_h, status: :not_found
+      return
     end
 
     if params['status'] == 'Verified'
       profile.update(verified: true)
-    else
+    elsif params['status'] == 'NotVerified'
       ActiveRecord::Base.transaction do
         profile.emails = profile.emails - [params['email']]
         profile.emails_available = profile.emails.size
@@ -35,5 +36,6 @@ class VerificationController < ApplicationController
     end
     logger.warn params.permit!.to_h
     render plain: params.permit!.to_h, status: :ok
+    return
   end
 end
