@@ -3,6 +3,12 @@ class VerificationController < ApplicationController
 
   def linkedin
     profile = Profile.find_by(linkedin_id: params['id'])
+    if profile.nil?
+      logger.fatal('Something wrong with validation')
+      logger.fatal(params)
+      render plain: params.permit!.to_h, status: :not_found
+    end
+
     if params['status'] == 'Verified'
       profile.update(verified: true)
     else
