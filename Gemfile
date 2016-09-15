@@ -79,6 +79,8 @@ gem 'typhoeus'
 gem 'mono_logger'
 gem 'twocheckout'
 
+gem 'jazz_fingers'
+
 group :production do
   gem 'rollbar'
 end
