@@ -1,0 +1,18 @@
+:output:
+  User:
+    :options:
+      :fields:
+        - id
+        - name
+        - email
+        - plan
+        - calls_left
+  Profile:
+    :options:
+      :fields:
+        - id
+        - linkedin_id
+        - name
+        - emails
+        - source
+        - verified
