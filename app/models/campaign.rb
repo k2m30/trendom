@@ -10,7 +10,7 @@ class Campaign < ApplicationRecord
     if Rails.env.test? #or Rails.env.development?
       SendBatchEmailsJob.set(queue: 'test').perform_now(id, user.email, user.tkn, user.name)
     else
-      SendBatchEmailsJob.set(queue: user.name.to_sym).perform_later(id, user.email, user.tkn, user.name)
+      SendBatchEmailsJob.set(queue: user.name.to_sym).perform_later(id, user.email, user.refresh_tkn, user.name)
     end
   end
 

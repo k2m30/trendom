@@ -54,6 +54,10 @@ class Profile < ApplicationRecord
       return emails
     end
 
+    if not_verified?
+      return emails
+    end
+
     get_emails_from_trendom
     unless emails.empty?
       logger.info("#{emails}, found in TrendomDB")

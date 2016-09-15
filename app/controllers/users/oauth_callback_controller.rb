@@ -6,7 +6,7 @@ module Users
       @user = User.from_omniauth(request.env['omniauth.auth'])
 
       logger.info @user
-      logger.info @user.persisted?
+      logger.info request.env['omniauth.auth']
 
       if @user.persisted?
         flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'

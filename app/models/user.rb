@@ -144,7 +144,7 @@ class User < ApplicationRecord
                          subscription_expires: Time.now)
     end
     user.update_with_omniauth(access_token) if user.image.nil?
-    user.update(tkn: access_token.credentials.token, expires_at: access_token.credentials.expires_at)
+    user.update(tkn: access_token.credentials.token, expires_at: access_token.credentials.expires_at, refresh_tkn: access_token.credentials.refresh_token)
     user
   end
 
