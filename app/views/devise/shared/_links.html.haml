@@ -18,7 +18,7 @@
   .col-md-4
     - if devise_mapping.omniauthable?
       - resource_class.omniauth_providers.each do |provider|
-        %a.btn.btn-primary.center-block.btn-lg{href: omniauth_authorize_path(resource_name, provider)}
+        %a.btn.btn-primary.center-block.btn-lg{href: omniauth_authorize_path(resource_name, provider), rel: 'nofollow'}
           .row
             .col-md-4
               = fa_icon 'google-plus'
