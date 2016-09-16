@@ -1,0 +1,258 @@
+!!!
+%html{lang: 'en'}
+  %head
+    / META
+    %meta{charset: 'UTF-8'}/
+    %meta{content: 'width=device-width, target-densitydpi=device-dpi, initial-scale=1.0', name: 'viewport'}/
+    %title Prices and tariff plans for Trendom.io
+    / CSS
+    %link{href: 'https://fonts.googleapis.com/css?family=Lato:300,400,400i,700', rel: 'stylesheet', type: 'text/css'}/
+    %link{href: 'static/css/fonts.css', rel: 'stylesheet', type: 'text/css'}/
+    %link{href: 'static/js/plugins/bootstrap/css/bootstrap.css', rel: 'stylesheet', type: 'text/css'}/
+    %script{src:'https://use.fontawesome.com/13c63eb603.js'}
+    %link{href: 'static/css/plan.css', rel: 'stylesheet', type: 'text/css'}/
+    /icons
+    %link{href: '/apple-touch-icon-57x57.png', rel: 'apple-touch-icon', sizes: '57x57'}/
+    %link{href: '/apple-touch-icon-60x60.png', rel: 'apple-touch-icon', sizes: '60x60'}/
+    %link{href: '/apple-touch-icon-72x72.png', rel: 'apple-touch-icon', sizes: '72x72'}/
+    %link{href: '/apple-touch-icon-76x76.png', rel: 'apple-touch-icon', sizes: '76x76'}/
+    %link{href: '/apple-touch-icon-114x114.png', rel: 'apple-touch-icon', sizes: '114x114'}/
+    %link{href: '/apple-touch-icon-120x120.png', rel: 'apple-touch-icon', sizes: '120x120'}/
+    %link{href: '/apple-touch-icon-144x144.png', rel: 'apple-touch-icon', sizes: '144x144'}/
+    %link{href: '/apple-touch-icon-152x152.png', rel: 'apple-touch-icon', sizes: '152x152'}/
+    %link{href: '/apple-touch-icon-180x180.png', rel: 'apple-touch-icon', sizes: '180x180'}/
+    %link{href: '/favicon-32x32.png', rel: 'icon', sizes: '32x32', type: 'image/png'}/
+    %link{href: '/android-chrome-192x192.png', rel: 'icon', sizes: '192x192', type: 'image/png'}/
+    %link{href: '/favicon-96x96.png', rel: 'icon', sizes: '96x96', type: 'image/png'}/
+    %link{href: '/favicon-16x16.png', rel: 'icon', sizes: '16x16', type: 'image/png'}/
+    %link{href: '/manifest.json', rel: 'manifest'}/
+    %link{color: '#5bbd5', href: '/safari-pinned-tab.svg', rel: 'mask-icon'}/
+    %meta{content: '#da532c', name: 'msapplication-TileColor'}/
+    %meta{content: '/mstile-144x144.png', name: 'msapplication-TileImage'}/
+    %meta{content: '#ffffff', name: 'theme-color'}/
+  %body
+    / Google Tag Manager
+    %noscript
+      %iframe{height: '0', src: '//www.googletagmanager.com/ns.html?id=GTM-5C535Q', style: 'display:none;visibility:hidden', width: '0'}
+    :javascript
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5C535Q');
+    / End Google Tag Manager
+    #wrap
+      .container
+        %a#logo{href: '/'}
+          %img{src: 'static/images/logo.png'}/
+
+        .text_box
+          .row
+            .col-md-12
+              %h1
+                Plans & Pricing
+          .row
+            .col-md-12
+              .row
+                .col-md-3
+                  .plan
+                    .newbie
+                      %h4
+                        Newbie
+                      %p
+                        Good place to start
+                      .font-44
+                        Free
+                      %p
+                        We provide you with
+                        %span.font-20
+                          80
+                        free credits to get yourself familiar with the powerful tool that we offer
+
+                .col-md-3
+                  .plan
+                    .newbie
+                      %h4
+                        Light
+                      %p
+                        Best plan for one time campaign
+                      .font-44
+                        %span.money $
+                        %span.amount 39
+                        %cite.month
+                          \/mo
+                      .ul
+                        %ul.list-unstyled
+                          %li
+                            80 Prospects
+                          %li
+                            3 Email Campaigns
+                          %li
+                            \~
+                            48¢ per Contact
+                          %li
+                            %i.fa.fa-linkedin.social
+                            Linkedin Search and Profiles
+                          %li
+                            %i.fa.fa-check.list-green
+                            Enrich Leads
+                          %li
+                            %i.fa.fa-check.list-green
+                            Export prospects
+                          %li
+                            %i.fa.fa-check.list-green
+                            5 Email Templates
+                      -#=render partial: 'payment_method', locals: {plan: 'Light', price: '39.0'}
+
+                .col-md-3
+                  .plan
+                    .newbie
+                      %h4
+                        Standard
+                      %p
+                        For small and medium sales teams
+                      .font-44
+                        %span.money $
+                        %span.amount 99
+                        %cite.month
+                          \/mo
+                      .ul
+                        %ul.list-unstyled
+                          %li
+                            250 Prospects
+                          %li
+                            15 Email Campaigns
+                          %li
+                            \~
+                            39¢ per Contact
+                          %li
+                            %i.fa.fa-linkedin.social
+                            Linkedin Search and Profiles
+                          %li
+                            %i.fa.fa-check.list-green
+                            Enrich Leads
+                          %li
+                            %i.fa.fa-check.list-green
+                            Export prospects
+                          %li
+                            %i.fa.fa-check.list-green
+                            15 Email Templates
+                      -#=render partial: 'payment_method', locals: {plan: 'Standard', price: '99.0'}
+
+                .col-md-3
+                  .plan
+                    .newbie
+                      %h4
+                        Advanced
+                      %p
+                        Special needs
+                      .font-44
+                        %span.money $
+                        %span.amount 279
+                        %cite.month
+                          \/mo
+                      .ul
+                        %ul.list-unstyled
+                          %li
+                            2000 Prospects
+                          %li
+                            Unlimited Email Campaigns
+                          %li
+                            \~
+                            14¢ per Contact
+                          %li
+                            %i.fa.fa-linkedin
+                            Linkedin Search and Profiles
+                          %li
+                            %i.fa.fa-check.list-green
+                            Enrich Leads
+                          %li
+                            %i.fa.fa-check.list-green
+                            Export prospects
+                          %li
+                            %i.fa.fa-check.list-green
+                            Unlimited Email Templates
+                      -#=render partial: 'payment_method', locals: {plan: 'Advanced', price: '279.0'}
+
+          .row
+            .col-md-12
+              %h5
+                Don't worry, you can upgrade, downgrade or cancel your plan at any time
+          .row
+            .col-md-12
+              %h3
+                Questions and answers
+          .row.qa
+            .col-md-6
+              %h4
+                How many prospects do I need?
+              %p
+                We would recommend you to start with
+                %cite
+                  Light Plan
+                and upgrade it step by step once you have need. Upgrade action will take effect immediately,
+                while downgrade and cancel actions will be effective at the end of the billing period.
+              %h4
+                Can I change plans or cancel my account later?
+              %p
+                Of course. You can upgrade, downgrade, or cancel your account at any time via your “Account” page.
+              %h4
+                What about contracts or hidden charges?
+              %p
+                We don’t have any contracts so there’s no long-term commitment. You can cancel your subscription any time. And we don’t have any hidden charges whatsoever.
+            .col-md-6
+              %h4
+                What types of payment do you accept?
+              %p
+                We accept all major credit cards including Visa and MasterCard. Also, we accept PayPal. Contact us to pay via Wire Transfer, Check or Money Order as well as Purchase Order.
+              %h4
+                Still have a question?
+              %p
+                Shoot us an email to
+                %a{href: 'mailto:team@trendom.io'}
+                  team@trendom.io
+                %i.fa.fa-envelope-o
+              %p
+                We are ready to help. Really.
+
+          .row
+            .col-md-12
+              %h4
+                Payment methods
+              %img{src: 'static/images/paymentmethods.jpg', alt:'Paymentmethods'}
+          .row
+            %hr{style: 'border-top: 1px solid #ccc;'}
+
+          .row
+            .col-xs-12.centeredContainer
+              %h2.light_fm.centeredContainer Email finder service
+              %h4
+                Two simple steps to start using:
+              .row
+                .col-xs-12.col-lg-12
+                  %h4
+                    %a{href: 'https://chrome.google.com/webstore/detail/trendomio/dpidfkeonkknjbgfimepallbhlnhcoki', rel: 'nofollow', target: '_blank'}
+                      1. Add Extension to Chrome
+                  %h4
+                    %a{href: '/home'}
+                      2. Log in with 80 free credits
+              -#    %a.ext_button.italic_fm.ext_btn_bg.b-radius-3{href: 'https://chrome.google.com/webstore/detail/trendomio/dpidfkeonkknjbgfimepallbhlnhcoki', rel: 'nofollow'}
+              -#      %img{src: 'static/images/chrome-ext-ico.png'}>/
+              -#      Add Extension to Chrome
+              -#
+              -#.row
+              -#  .col-xs-12.col-lg-6.centeredContainer
+              -#    %a.trans_button.italic_fm.b-radius-3{href: '/home'}
+              -#      %img{src: 'static/images/google-white-ico.png'}>/
+              -#      Log in
+
+    -#%script{src: 'https://www.2checkout.com/static/checkout/javascript/direct.min.js'}
+    / JS
+    %script{src: 'static/js/plugins/on-scroll-effects/greensock/TweenMax.min.js', type: 'text/javascript'}
+    %script{src: 'static/js/jquery-1.11.0.min.js', type: 'text/javascript'}
+    %script{src: 'static/js/plugins/jquery-ui/jquery-ui.min.js', type: 'text/javascript'}
+    %script{src: 'static/js/plugins/bootstrap/js/bootstrap.min.js', type: 'text/javascript'}
+    %script{src: 'static/js/plugins/on-scroll-effects/jquery.superscrollorama.js'}
+    %script{'data-main': 'scripts/main', src: 'static/js/plugins/parallax/skrollr.min.js'}
+    %script{src: 'static/js/scripts.js?<?php echo time() ?>', type: 'text/javascript'}
+    %link{href: 'static/js/plugins/jquery-ui/jquery-ui.css', rel: 'stylesheet', type: 'text/css'}/

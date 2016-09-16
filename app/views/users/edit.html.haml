@@ -56,18 +56,57 @@
 ['Virgin Islands, U.S.', 'VIR'], ['Wallis and Futuna Islands', 'WLF'], ['Western Sahara', 'ESH'], ['Yemen', 'YEM'],
 ['Yugoslavia', 'YUG'], ['Zaire', 'ZAR'], ['Zambia', 'ZMB'], ['Zimbabwe', 'ZWE']]
 .row
-  .col-md-3
-  .col-md-3
+  .col-md-8.col-md-offset-2
+    %h4
+      We kindly ask you to fill in following info to simplify further payment process
+    %h4
+      Of course, you can do it later
+.row
+  .col-md-12
+    %hr
+.row
+  .col-md-8.col-lg-offset-2
     =bootstrap_form_for(current_user) do |f|
-      = f.text_field :card_holder_name, value: current_user.card_holder_name || current_user.name
-      = f.text_field :street_address, value: current_user.street_address
-      = f.text_field :street_address2, value: current_user.street_address2
-      = f.text_field :city, value: current_user.city
-      = f.text_field :state, value: current_user.state
-      = f.text_field :zip, value: current_user.zip
-      = f.select :country, countries_list
-      = f.email_field :billing_email, label: 'Email', value: current_user.billing_email || current_user.email
-      = f.text_field :phone, value: current_user.phone
+      .row
+        .col-md-4
+          = f.text_field :card_holder_name, value: current_user.card_holder_name || current_user.name
+        .col-md-4
+          = f.text_field :state, value: current_user.state
+        .col-md-4
+          = f.select :country, countries_list
 
-      = f.submit 'Confirm user details'
-  .col-md-3
+      .row
+        .col-md-4
+          = f.text_field :street_address, value: current_user.street_address
+        .col-md-4
+          = f.text_field :zip, value: current_user.zip
+        .col-md-4
+
+      .row
+        .col-md-4
+          = f.text_field :street_address2, value: current_user.street_address2
+        .col-md-4
+          = f.email_field :billing_email, label: 'Email', value: current_user.billing_email || current_user.email
+        .col-md-4
+
+      .row
+        .col-md-4
+          = f.text_field :city, value: current_user.city
+        .col-md-4
+          = f.text_field :phone, value: current_user.phone
+      .row
+        .col-md-4
+          %br
+          = f.submit 'Confirm user details', class: 'btn btn-info'
+.row
+  .col-md-12
+    %hr
+
+.row
+  .col-md-8.col-md-offset-2
+    %h4
+      Please note, we will not ask you for a credit card number before you make the decision
+
+.row{style: 'padding-top: 100px;'}
+  .col-md-2.col-md-offset-5
+    = fa_icon 'bank 4x', class: 'text-muted'

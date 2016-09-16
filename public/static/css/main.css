@@ -8,9 +8,9 @@ html, body{
     font-size: 62.5%;
 }
 body{
-    background: #2d9ff3;
-    font-family: 'latoregular';
-	color:#fff;
+    background: #2784cc;
+    font-family: 'Lato', sans-serif;
+    color:#fff;
 }
 div{
     -moz-box-sizing:border-box;
@@ -37,6 +37,13 @@ a.hidden{display: none;}
     box-sizing:border-box;
 }
 
+.text_box{
+	background: linear-gradient(45deg, #E0E0E0, #F0F0F0);
+	padding: 10px 40px;
+	box-shadow: 2px 2px 2px #333333;
+	border-radius: 5px;
+
+}
 .centeredContainer{
     text-align:center;
 }
@@ -85,7 +92,7 @@ p{
 	color:#2e3642;
 }
 .blue_color{
-	color:#2d9ff3;
+	color: #2c8bdd;
 }
 
 .ext_button{
