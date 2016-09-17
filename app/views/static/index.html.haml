@@ -3,12 +3,12 @@
   %head
     %title Lead generation tool and email finder - Trendom.io
     %meta{name: 'description', content: 'Simple tool for email finding. It helps you to reveal emails of Linkedin users easily - Trendom.io.'}
+    %link{href: 'static/css/main.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
+    %link{href: 'static/js/plugins/bootstrap/css/bootstrap.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
+    %link{href: 'static/css/fonts.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
 
     = Haml::Engine.new(File.read('app/views/static/_head.html.haml')).render
 
-    %link{href: 'static/css/fonts.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
-    %link{href: 'static/js/plugins/bootstrap/css/bootstrap.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
-    %link{href: 'static/css/main.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
   %body{style: 'width:100%; height:100%; font-size: 62.5%; background: #2784cc; font-family: \'Lato\', sans-serif; color:#fff;'}
     / Google Tag Manager
     %noscript

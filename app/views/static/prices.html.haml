@@ -3,13 +3,13 @@
   %head
     %title Prices and tariff plans for Trendom.io
     %meta{name: 'description', content: 'Prices and tariff plans for Linkedin users email revealing tool - Trendom.io.'}
+    %link{href: 'static/css/plan.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
+    %link{href: 'static/js/plugins/bootstrap/css/bootstrap.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
+    %link{href: 'static/css/fonts.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
 
     = Haml::Engine.new(File.read('app/views/static/_head.html.haml')).render
 
     %script{src:'https://use.fontawesome.com/13c63eb603.js', async: true}
-    %link{href: 'static/css/fonts.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
-    %link{href: 'static/js/plugins/bootstrap/css/bootstrap.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
-    %link{href: 'static/css/plan.css', rel: 'stylesheet', type: 'text/css', media:'none', onload: "if(media!='all')media='all'"}/
 
   %body{style: 'width:100%; height:100%; background: #2784cc; font-family: \'Lato\', sans-serif;'}
     / Google Tag Manager
