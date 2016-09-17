@@ -13,10 +13,15 @@
 -#      = f.label :remember_me
 -#  .actions
 -#    = f.submit "Log in"
+
+.row
+  .col-md-2.col-md-offset-5.text-muted
+    = fa_icon 'lock 4x', style: 'width: 20%;margin: auto 40%;'
+
 .row
   .col-md-4
   .col-md-4.center-block
-    %h5.text-center Please log in to access your downloads
+    %h5.text-center Please log in to access your revealed profiles, email campaigns and downloads
   .col-md-4
 
 = render 'devise/shared/links'

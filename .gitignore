@@ -20,6 +20,7 @@
 .idea
 /public/assets
 public/_table.html
+public/_head.html
 
 
 # Ignore Byebug command history file.
