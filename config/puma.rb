@@ -7,14 +7,6 @@
 threads_count = ENV.fetch('RAILS_MAX_THREADS') { 8 }.to_i
 threads threads_count, threads_count + 24
 
-# Specifies the `port` that Puma will listen on to receive requests, default is 3000.
-#
-port ENV.fetch('PORT') { 3000 }
-
-# Specifies the `environment` that Puma will run in.
-#
-environment ENV.fetch('RAILS_ENV') { 'production' }
-
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.
@@ -47,7 +39,11 @@ environment ENV.fetch('RAILS_ENV') { 'production' }
 plugin :tmp_restart
 tag 'Trendom server Rails 5'
 
-unless ENV['RAILS_ENV'] == 'development'
+if ENV['RAILS_ENV'] == 'development'
+  port ENV.fetch('PORT'){ 3000 }
+  environment 'development'
+else
+  environment 'production'
   pidfile '/home/deploy/puma.pid'
   state_path '/home/deploy/puma.state'
   stdout_redirect '/home/deploy/trendom.io/shared/log/puma_access.log', '/home/deploy/trendom.io/shared/log/puma_error.log', true
