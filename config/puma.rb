@@ -37,6 +37,7 @@ threads threads_count, threads_count + 24
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+debug
 tag 'Trendom server Rails 5'
 
 if ENV['RAILS_ENV'] == 'development'
@@ -46,7 +47,7 @@ else
   environment 'production'
   pidfile '/home/deploy/puma.pid'
   state_path '/home/deploy/puma.state'
-  stdout_redirect '/home/deploy/trendom.io/shared/log/puma_access.log', '/home/deploy/trendom.io/shared/log/puma_error.log', true
+  stdout_redirect '/home/deploy/trendom.io/shared/log/puma_access.log', '/home/deploy/trendom.io/shared/log/puma_error.log', false
   bind 'unix:///home/deploy/trendom.sock'
   daemonize
 end
