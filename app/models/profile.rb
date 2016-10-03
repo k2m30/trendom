@@ -37,7 +37,7 @@ class Profile < ApplicationRecord
   end
 
   def split_name
-    name.split(' ')
+    name.split(' ').map(&:capitalize)
   end
 
   def extract_company

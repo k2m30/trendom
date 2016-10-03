@@ -19,7 +19,8 @@ class SendBatchEmailsJob < ApplicationJob
         begin
           email = gmail.compose do
             subject, body = profile.apply_template(campaign.email_template_id)
-            to profile.emails.first
+            first, last = profile.split_name
+            to "#{first} #{last} <#{profile.emails.first}>"
             subject subject
             text_part do
               body body
