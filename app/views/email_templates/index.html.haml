@@ -36,12 +36,10 @@
             =link_to 'Destroy', email_template_path(@current_template), class: 'btn btn-default', method: :delete, id: 'delete-template'
 
     .col-md-6
-      -@current_template.text.gsub!("\n","\n\r")
       = bootstrap_form_for(@current_template) do |f|
         = f.text_field :name
         = f.text_field :subject
-        = f.text_area :text, rows: 30
-
+        = preserve f.text_area(:text, rows: 30)
 
         = f.submit 'Save', class: 'btn btn-lg btn-info'
     .col-md-3
