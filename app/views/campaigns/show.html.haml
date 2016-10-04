@@ -1,28 +1,15 @@
 .row
-  .col-md-12
+  .col-md-8
     %h3
       = @campaign.name
 .row
   .col-md-8
-    %table.table
-      %thead
-        %th Name
-        %th Position
-        %th Email
-      %tbody
-        -@campaign.profiles.each do |profile|
-          %tr
-            %td
-              =profile.name
-            %td
-              =profile.position
-            %td
-              =profile.emails.first
-
-.row
-  .col-md-12
     %h3
       Example
+  .col-md-4
+    %h3
+      You can send test email to yourself
+
 -unless @campaign.profiles.empty?
   .row
     .col-md-8
@@ -49,9 +36,41 @@
           %tr
             %td{colspan: 2}
               =body.gsub("\n",'<br/>').html_safe
+    .col-md-4
+      .panel.panel-primary
+        .panel-heading
+          %h3.panel-title
+            You can send test email to yourself
+        .panel-body
+          %p
+            To ensure everything is ok, you might want to send test email to your email address and check how is it look like
 
+      = bootstrap_form_tag url: send_test_email_campaign_path(@campaign) do |f|
+        = f.email_field :email, value: params[:email] || current_user.email
+        = f.submit 'Send'
 .row
   .col-md-8
     - if @campaign.progress.zero?
       =link_to 'Edit template', email_templates_path(email_template_id: @campaign.email_template_id), class: 'btn btn-default'
       =link_to "Send out #{@campaign.profiles.size} emails now", send_campaign_path(@campaign), method: :post, class: 'btn btn-info send-out'
+.row
+  .col-md-8
+    %h3
+      Recipients
+
+.row
+  .col-md-8
+    %table.table
+      %thead
+        %th Name
+        %th Position
+        %th Email
+      %tbody
+        -@campaign.profiles.each do |profile|
+          %tr
+            %td
+              =profile.name
+            %td
+              =profile.position
+            %td
+              =profile.emails.first

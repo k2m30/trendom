@@ -18,6 +18,10 @@ class Campaign < ApplicationRecord
     EmailTemplate.find(email_template_id).name
   end
 
+  def send_test_email(email_to)
+    SendEmailJob.set(queue: user.name.to_sym).perform_later(profiles_ids.sample, id, email_to, user.email, user.refresh_tkn, user.name)
+  end
+
   def profiles
     Profile.where(id: profiles_ids)
   end

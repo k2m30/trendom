@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   resources :campaigns do
     member do
       post 'send', to: 'campaigns#send_out'
+      post 'send_test_email', to: 'campaigns#send_test_email'
     end
   end
 
