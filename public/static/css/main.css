@@ -177,9 +177,18 @@ p{
 			top: 25px;
 		}
 
+#video_section{
+	position:relative;
+	margin-top:130px;
+}
+
+#video{
+	margin-top:60px;
+}
+
 #should_section{
 	position:relative;
-	margin-top:300px;
+	margin-top:200px;
 }
 .should_list_wrap{
 	margin-top:80px;
