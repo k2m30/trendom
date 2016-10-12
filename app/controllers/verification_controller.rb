@@ -39,4 +39,8 @@ class VerificationController < ApplicationController
     render plain: params.permit!.to_h, status: :ok
     return
   end
+
+  def find_user
+    @info = JSON.pretty_generate(Rapportive.new.find_user(params[:email])) unless params[:email].nil?
+  end
 end

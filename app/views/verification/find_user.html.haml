@@ -1,0 +1,6 @@
+= bootstrap_form_tag(url: '/verify', method: :get) do |f|
+  = f.email_field :email, value: params[:email]
+  = f.submit 'Find'
+%hr
+%pre
+  = @info.html_safe if @info.present?

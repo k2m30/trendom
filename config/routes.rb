@@ -62,6 +62,8 @@ Rails.application.routes.draw do
   post 'purchase', to: 'purchases#index'
   # get 'purchase', to: 'purchases#index'
 
+  get 'verify', to: 'verification#find_user'
+
   match '*any', to: 'not_found#any', via: [:get, :post]
 
 
