@@ -4,7 +4,7 @@ class EmailTemplate < ApplicationRecord
   before_destroy :clean_campaigns
 
   def clone
-    new_attributes = attributes
+    new_at  tributes = attributes
     new_attributes.delete('id')
     EmailTemplate.create(new_attributes)
   end
