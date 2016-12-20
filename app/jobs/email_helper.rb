@@ -1,8 +1,8 @@
 def compose_email(gmail, profile, email_to, campaign, user_name)
   gmail.compose do
     subject, body = profile.apply_template(campaign.email_template_id)
-    first, last = profile.split_name
-    to "#{first} #{last} <#{email_to}>"
+
+    to "#{profile.first_name} #{profile.last_name} <#{email_to}>"
     subject subject
     text_part do
       body body

@@ -2,11 +2,26 @@ require 'gmail'
 
 class Campaign
   include Mongoid::Document
-  
+  include Mongoid::Timestamps::Created
+  include Mongoid::Timestamps::Updated
+
+  field :name, type: String
+  field :sent, type: Boolean
+  field :date_sent, type: DateTime
+  field :progress, type: Float
+  field :email_template_id, type: Integer
+  field :user_id, type: Integer
+  field :subject, type: String
+  field :profiles_ids, type: Array
+
   embedded_in :user
-  has_many :email_templates, through: :user
+  # has_many :email_templates, through: :user
 
   # serialize :profiles_ids
+
+  def email_templates
+    self.user.email_templates
+  end
 
   def send_out
     if Rails.env.test? #or Rails.env.development?

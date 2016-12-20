@@ -1,5 +1,7 @@
 class User
   include Mongoid::Document
+  include Mongoid::Timestamps::Created
+  include Mongoid::Timestamps::Updated
 
   field :email, type: String
   field :name, type: String
@@ -21,26 +23,37 @@ class User
   field :progress, type: Float, default: 0.0
   field :tkn, type: String
   field :expires_at, type: DateTime
-  field :revealed_ids, type: Array, default: []
+  field :profiles_ids, type: Array, default: []
   field :campaigns_sent_ids, type: Array, default: []
   field :order_number, type: String
   field :refresh_tkn, type: String
 
+  field :encrypted_password
+  field :sign_in_count, type: Integer, default: 0
+  field :current_sign_in_at, type: DateTime
+  field :last_sign_in_at, type: DateTime
+  field :current_sign_in_ip
+  field :last_sign_in_ip
+
   store_in collection: 'trendomUser'
-  embeds_many :email_templates
-  embeds_many :campaigns
+  embeds_many :email_templates, cascade_callbacks: true
+  embeds_many :campaigns, cascade_callbacks: true
 
   devise :database_authenticatable, :trackable, :omniauthable, omniauth_providers: [:google_oauth2]
 
   # serialize :revealed_ids
   # serialize :campaigns_sent_ids
 
-  has_and_belongs_to_many :profiles
+  # has_and_belongs_to_many :profiles
 
   after_create :create_email_templates
 
+  def profiles
+    Profile.in(id: self.profiles_ids)
+  end
+
   def self.create_test_data
-    User.find_by(email: 'mikhail.chuprynski@gmail.com').update(profiles: [], revealed_ids: [], subscription_expires: Time.now + 1.month, calls_left: 10)
+    User.find_by(email: 'mikhail.chuprynski@gmail.com').update(profiles: [], subscription_expires: Time.now + 1.month, calls_left: 10)
     User.find_by(email: 'mikhail.chuprynski@gmail.com').campaigns.destroy_all
     url = Rails.env.production? ? 'trendom.io' : 'localhost:3000'
 
@@ -63,53 +76,21 @@ class User
     active
   end
 
-  def profiles_with_revealed_emails
-    profiles.where(id: revealed_ids)
-  end
-
-  def profiles_with_hidden_emails
-    profiles.where.not(id: revealed_ids)
-  end
-
-  def profiles_not_contacted
-    ids = campaigns.where(sent: true).pluck(:profiles_ids)
-    profiles_with_revealed_emails.where.not(id: ids)
-  end
-
   def profiles_not_in_campaigns
     ids = campaigns.pluck(:profiles_ids)
-    profiles.where.not(id: ids.flatten)
-  end
-
-  def purchase(params)
-    if check_md5_hash(params) and params['sid'].to_i == 202864835 and params['li_0_uid'] == uid
-      next_payment = subscription_expires.nil? ? Time.now + 1.month : subscription_expires + 1.month
-      case params['li_0_price'].to_f
-        when 39.0
-          self.update(plan: 'Light', subscription_expires: next_payment, calls_left: calls_left + 80, order_number: params['order_number'])
-        when 99.0
-          self.update(plan: 'Standard', subscription_expires: next_payment, calls_left: calls_left + 250, order_number: params['order_number'])
-        when 279.0
-          self.update(plan: 'Advanced', subscription_expires: next_payment, calls_left: calls_left + 2000, order_number: params['order_number'])
-      end
-
-      true
-    else
-      logger.error('md5 hash doesn\'t match or wrong user')
-      logger.error(params)
-
-      false
-    end
+    profiles.not_in(id: ids.flatten)
   end
 
   def add_profiles(params)
     request = UserRequest.new(params)
     case request.source
       when :linkedin
-        profiles_to_add = Profile.where(linkedin_id: request.ids - self.profile_ids)
+        profiles_to_add = Profile.in(id: request.ids - self.profiles_ids)
         profiles_to_add.each do |profile|
           begin
-            self.profiles << profile unless self.profiles.exists?(profile.id)
+            if self.calls_left > 0 and !self.profiles_ids.include?(profile.id)
+              self.update(calls_left: self.calls_left - 1, profiles_ids: self.profiles_ids << profile.id)
+            end
           rescue => e
             logger.fatal(e.message)
             logger.fatal(profile.id)
@@ -119,8 +100,6 @@ class User
       when :facebook
       when :twitter
     end
-    work_size = reveal_emails
-    work_size
   end
 
   def self.create_with_uid_and_email(uid, email)
@@ -158,20 +137,6 @@ class User
            password: Devise.friendly_token[0, 20],
            image: data[:image],
            uid: access_token[:uid])
-  end
-
-  def reveal_emails
-    work_size = [profiles_with_hidden_emails.size, calls_left].min
-    self.update(progress: 0.0) #if hidden_emails_size > 0
-    profiles_with_hidden_emails[0..work_size-1].each do |profile|
-      if Rails.env.test?
-        RevealEmailJob.set(queue: :test).perform_now(id, profile.id, (1/work_size.to_f*100.0).round(2))
-      else
-        queue_name = (self.name || self.email).to_sym
-        RevealEmailJob.set(queue: queue_name).perform_later(id, profile.id, (1/work_size.to_f*100.0).round(2))
-      end
-    end
-    work_size
   end
 
   def export_profiles(options = {})

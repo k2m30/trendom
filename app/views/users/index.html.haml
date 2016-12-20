@@ -81,15 +81,15 @@
             Profile
           %th
         %tbody
-          - (@user.profiles_not_in_campaigns - @user.profiles_with_hidden_emails).each do |p|
+          - (@user.profiles_not_in_campaigns).each do |p|
             %tr.visible-emails
               %td
               %td
-                =p.name
+                ="#{p.first_name} #{p.last_name}"
               %td
-                =p.position
+                =p.headline
               %td
-                =p.location
+                =p.main_location[:name]
               %td
                 -p.emails.each do |email|
                   %p
@@ -97,43 +97,15 @@
               -#%td
               -#  =p.notes unless p.notes.empty?
               %td
-                = link_to 'Linkedin profile', p.linkedin_url, target: :_blank
-              %td
-                =p.twitter_url
-              %td
-                =p.facebook_url
+                = link_to 'Linkedin profile', p.site_standard_request[:url], target: :_blank
               %td
                 =link_to edit_profile_path(p) do
                   = fa_icon 'edit'
 
-          - @user.profiles_with_hidden_emails.each do |p|
-            %tr.hidden-emails
-              %td
-                =link_to remove_profile_users_path(id: p.id), method: :post, class: 'remove-profile' do
-                  = fa_icon 'remove'
-              %td
-                =p.name
-              %td
-                =p.position
-              %td
-                =p.location
-              %td
-                -p.emails_available.times do
-                  %p
-                    *********@*****
-              -#%td
-              -#  =p.notes unless p.notes.empty?
-              %td
-                = link_to 'Linkedin profile', p.linkedin_url, target: :_blank
-              %td
-                =p.twitter_url
-              %td
-                =p.facebook_url
-
   .row#buttons
     .col-md-7
     .col-md-5
-      -if @user.profiles_with_revealed_emails.size > 0
+      -if @user.profiles_not_in_campaigns.size > 0
         = link_to new_campaign_path, class: 'btn btn-default', id: 'new_campaign' do
           Create new campaign
           = fa_icon 'send'
@@ -143,10 +115,6 @@
           = fa_icon 'download'
 
 
-      - if @user.profiles_with_hidden_emails.size > 0
-        = link_to '#reveal', class: 'btn btn-info', id: 'reveal', data: reveal_emails_users_path do
-          Reveal emails
-          = fa_icon 'search'
   -unless @user.active?
     .row
       .col-md-7

@@ -1,17 +1,21 @@
 class EmailTemplate
   include Mongoid::Document
+  include Mongoid::Timestamps::Created
+  include Mongoid::Timestamps::Updated
+
   field :name, type: String
-  field :text, type: Text
+  field :text, type: String
   field :subject, type: String, default: ''
 
   embedded_in :user
 
   before_destroy :clean_campaigns
 
-  def clone
-    new_at  tributes = attributes
-    new_attributes.delete('id')
-    EmailTemplate.create(new_attributes)
+  def clone(user)
+    new_attributes = attributes
+    new_attributes.delete('_id')
+    new_attributes[:name] += ' cloned'
+    user.email_templates.create(new_attributes)
   end
 
   def clean_campaigns

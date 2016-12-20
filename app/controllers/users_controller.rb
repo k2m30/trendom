@@ -49,10 +49,10 @@ class UsersController < ApplicationController
     if @user.nil?
       render nothing: true, status: :unauthorized
     else
-      delta = @user.add_profiles(params)
+      @user.add_profiles(params)
       hash = {}
       hash[:status] = {}
-      hash[:status][:calls_left] = @user.calls_left - delta
+      hash[:status][:calls_left] = @user.calls_left
       logger.debug(hash.to_json) if Rails.env.development?
       render json: hash.to_json
     end

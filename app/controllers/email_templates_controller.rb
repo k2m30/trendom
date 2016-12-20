@@ -6,7 +6,7 @@ class EmailTemplatesController < ApplicationController
   end
 
   def clone
-    new_template = @current_template.clone
+    new_template = @current_template.clone(current_user)
     redirect_to email_templates_path(email_template_id: new_template.id), notice: 'Template was cloned.'
   end
 
@@ -32,10 +32,10 @@ class EmailTemplatesController < ApplicationController
   private
 
   def set_email_templates
-    @email_templates = current_user.email_templates.order(:name)
+    @email_templates = current_user.email_templates.sort_by(&:name)
     unless @email_templates.empty?
-      current_template_id = params[:email_template_id] || params[:id]|| @email_templates.first.id
-      @current_template = @email_templates.find(current_template_id)
+      current_template_id = params[:email_template_id] || params[:id]|| @email_templates.first.id.to_s
+      @current_template = @email_templates.detect{|c| c.id.to_s == current_template_id}
     end
   end
 

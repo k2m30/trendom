@@ -24,7 +24,7 @@ class UserRequest
   end
 
   def ids
-    @profiles.map(&:id).map(&:to_i)
+    @profiles.map(&:id).map(&:to_s)
   end
 end
 

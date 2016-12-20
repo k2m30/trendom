@@ -21,6 +21,6 @@ def seed(n = 20)
                                linkedin_id: Faker::Number.number(7), emails_available: emails.size)
   end
 
-  User.first.update(revealed_ids: User.first.profiles.ids.shuffle[0..14], calls_left: 300, subscription_expires: Time.now + 1.month)
+  User.first.update(calls_left: 300, subscription_expires: Time.now + 1.month)
 end
 

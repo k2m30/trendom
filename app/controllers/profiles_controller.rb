@@ -31,9 +31,8 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    name = params[:first_name] << ' ' << params[:last_name]
-    position = params[:position] << ' at ' << params[:company]
-    @profile.update(name: name, position: position)
+    headline = params[:position] << ' at ' << params[:company]
+    @profile.update(first_name: params[:first_name], last_name: params[:last_name], headline: headline)
     @profile.set_primary_email(params[:primary_email])
     redirect_to :back, notice: 'Profile successfully updated.'
   end

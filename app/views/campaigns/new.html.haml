@@ -13,7 +13,7 @@
             %td
               =profile.name
             %td
-              =profile.position
+              =profile.headline
             %td
               -if profile.emails.size > 1
                 =select_tag :email, options_for_select(profile.emails, profile.emails.first), class: 'form-control select-email', id: profile.id
@@ -27,7 +27,7 @@
     = bootstrap_form_tag url: campaigns_path do |f|
       - profile = params[:profile_id].nil? ? @profiles.first : @profiles.find(params[:profile_id])
       - if profile.present?
-        - subject, body = profile.apply_template(email_template_id)
+        - subject, body = profile.apply_template(email_template_id, current_user)
         .row
           .col-md-7
             = f.text_field :name, value: campaign_name, label: 'Campaign name'

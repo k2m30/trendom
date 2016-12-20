@@ -1,5 +1,5 @@
-require 'net/smtp'
-require 'dnsruby'
+# require 'net/smtp'
+# require 'dnsruby'
 
 class NoMailServerException < StandardError;
 end

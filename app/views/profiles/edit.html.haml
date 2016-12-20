@@ -1,4 +1,5 @@
--first_name, last_name = @profile.split_name
+-first_name = @profile.first_name
+-last_name = @profile.last_name
 -company = @profile.extract_company
 -position = @profile.extract_position
 
@@ -14,12 +15,12 @@
           %td
             Full Name
           %td
-            =@profile.name
+            ="#{@profile.first_name} #{@profile.last_name}"
         %tr
           %td
             Full Position
           %td
-            =@profile.position
+            =@profile.headline
         %tr
           %td
             Emails
