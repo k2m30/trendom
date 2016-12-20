@@ -1,5 +1,10 @@
-class EmailTemplate < ApplicationRecord
-  belongs_to :user
+class EmailTemplate
+  include Mongoid::Document
+  field :name, type: String
+  field :text, type: Text
+  field :subject, type: String, default: ''
+
+  embedded_in :user
 
   before_destroy :clean_campaigns
 

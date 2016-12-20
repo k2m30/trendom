@@ -1,7 +1,9 @@
 require 'gmail'
 
-class Campaign < ApplicationRecord
-  belongs_to :user
+class Campaign
+  include Mongoid::Document
+  
+  embedded_in :user
   has_many :email_templates, through: :user
 
   # serialize :profiles_ids

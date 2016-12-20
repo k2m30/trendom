@@ -13,26 +13,26 @@ class VerificationController < ApplicationController
     if params['status'] == 'Verified'
       profile.verified!
     elsif params['status'] == 'NotVerified'
-      ActiveRecord::Base.transaction do
-        profile.emails = profile.emails - [params['email']]
-        profile.emails_available = profile.emails.size
-        profile.verified = :not_verified
-        profile.save
 
-        users = profile.users
-        users.each do |user|
-          if user.revealed_ids.include? profile.id
-            user.revealed_ids = user.revealed_ids - [profile.id]
-            user.calls_left += 1
-          end
-          user.campaigns.where(sent: false).each do |campaign|
-            campaign.profiles_ids = campaign.profiles_ids - [profile.id]
-            campaign.save
-          end
-          user.profiles.delete(profile)
-          user.save
+      profile.emails = profile.emails - [params['email']]
+      profile.emails_available = profile.emails.size
+      profile.verified = :not_verified
+      profile.save
+
+      users = profile.users
+      users.each do |user|
+        if user.revealed_ids.include? profile.id
+          user.revealed_ids = user.revealed_ids - [profile.id]
+          user.calls_left += 1
         end
+        user.campaigns.where(sent: false).each do |campaign|
+          campaign.profiles_ids = campaign.profiles_ids - [profile.id]
+          campaign.save
+        end
+        user.profiles.delete(profile)
+        user.save
       end
+
     elsif params['status'] == 'Failed'
       profile.update(notes: params['verification'].permit!.to_h, verified: :failed)
     end

@@ -1,15 +1,39 @@
-require 'csv'
-require 'digest/md5'
-require 'twocheckout'
+class User
+  include Mongoid::Document
 
-class User < ApplicationRecord
+  field :email, type: String
+  field :name, type: String
+  field :image, type: String
+  field :uid, type: String
+  field :plan, type: String, default: ''
+  field :subscription_expires, type: DateTime
+  field :card_holder_name, type: String
+  field :street_address, type: String
+  field :street_address2, type: String
+  field :city, type: String
+  field :state, type: String
+  field :zip, type: String
+  field :country, type: String
+  field :billing_email, type: String
+  field :phone, type: String
+  field :card_number, type: String
+  field :calls_left, type: Integer, default: 0
+  field :progress, type: Float, default: 0.0
+  field :tkn, type: String
+  field :expires_at, type: DateTime
+  field :revealed_ids, type: Array, default: []
+  field :campaigns_sent_ids, type: Array, default: []
+  field :order_number, type: String
+  field :refresh_tkn, type: String
+
+  store_in collection: 'trendomUser'
+  embeds_many :email_templates
+  embeds_many :campaigns
+
   devise :database_authenticatable, :trackable, :omniauthable, omniauth_providers: [:google_oauth2]
 
   # serialize :revealed_ids
   # serialize :campaigns_sent_ids
-
-  has_many :email_templates, dependent: :delete_all
-  has_many :campaigns, dependent: :delete_all
 
   has_and_belongs_to_many :profiles
 
@@ -78,27 +102,6 @@ class User < ApplicationRecord
     end
   end
 
-  def stop_recurring!
-    Twocheckout::API.credentials = {
-        username: ENV['CHECKOUT_USER'],
-        password: ENV['CHECKOUT_PASSWORD'],
-    }
-    begin
-      sale = Twocheckout::Sale.find(sale_id: order_number)
-      sale.stop_recurring!
-      update(plan: 'Free')
-      true
-    rescue Exception => e
-      logger.error e.message
-      false
-    end
-  end
-
-  def check_md5_hash(params)
-    Digest::MD5.hexdigest(ENV['CHECKOUT_SECRET'] + params['sid'] + params['order_number'] + params['total']).upcase == params['key'] ||
-        Digest::MD5.hexdigest(ENV['CHECKOUT_SECRET'] + params['sid'] + '1' + params['total']).upcase == params['key']
-  end
-
   def add_profiles(params)
     request = UserRequest.new(params)
     case request.source
@@ -107,7 +110,7 @@ class User < ApplicationRecord
         profiles_to_add.each do |profile|
           begin
             self.profiles << profile unless self.profiles.exists?(profile.id)
-          rescue ActiveRecord::RecordInvalid => e
+          rescue => e
             logger.fatal(e.message)
             logger.fatal(profile.id)
             logger.fatal(profile.linkedin_id)
