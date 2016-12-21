@@ -3,9 +3,9 @@ $(document).on('turbolinks:load', function () {
         var value = $(this).find('option:selected').val();
         var current_url = $(this).attr('data-url');
         var new_url;
-
+        console.log(current_url);
         if (current_url.includes('email_template_id')) {
-            var re = /email_template_id=\d+/;
+            var re = /email_template_id=[0-9a-f]+/;
             new_url = current_url.replace(re, 'email_template_id=' + value);
         }
         else {

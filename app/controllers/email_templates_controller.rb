@@ -30,7 +30,6 @@ class EmailTemplatesController < ApplicationController
 
 
   private
-
   def set_email_templates
     @email_templates = current_user.email_templates.sort_by(&:name)
     unless @email_templates.empty?
