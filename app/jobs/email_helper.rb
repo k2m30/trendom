@@ -1,13 +1,11 @@
-def compose_email(gmail, profile, email_to, campaign, user_name)
+def compose_email(gmail, profile, email_to, campaign, user)
   gmail.compose do
-    subject, body = profile.apply_template(campaign.email_template_id)
+    subject, body = profile.apply_template(campaign.email_template_id, user)
 
     to "#{profile.first_name} #{profile.last_name} <#{email_to}>"
     subject subject
-    text_part do
-      body body
-    end
-    from user_name if user_name.present?
+    body body
+    from user.name if user.name.present?
   end
 end
 

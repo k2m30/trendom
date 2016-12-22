@@ -1,3 +1,4 @@
+require 'csv'
 class User
   include Mongoid::Document
   include Mongoid::Timestamps::Created
@@ -7,6 +8,7 @@ class User
   field :name, type: String
   field :image, type: String
   field :uid, type: String
+
   field :plan, type: String, default: ''
   field :subscription_expires, type: DateTime
   field :card_holder_name, type: String
@@ -19,14 +21,15 @@ class User
   field :billing_email, type: String
   field :phone, type: String
   field :card_number, type: String
+
   field :calls_left, type: Integer, default: 0
   field :progress, type: Float, default: 0.0
   field :tkn, type: String
+  field :refresh_tkn, type: String
   field :expires_at, type: DateTime
+
   field :profiles_ids, type: Array, default: []
   field :campaigns_sent_ids, type: Array, default: []
-  field :order_number, type: String
-  field :refresh_tkn, type: String
 
   field :encrypted_password
   field :sign_in_count, type: Integer, default: 0
@@ -53,7 +56,7 @@ class User
   end
 
   def self.create_test_data
-    User.find_by(email: 'mikhail.chuprynski@gmail.com').update(profiles: [], subscription_expires: Time.now + 1.month, calls_left: 10)
+    User.find_by(email: 'mikhail.chuprynski@gmail.com').update(profiles_ids: [], subscription_expires: Time.now + 1.month, calls_left: 10)
     User.find_by(email: 'mikhail.chuprynski@gmail.com').campaigns.destroy_all
     url = Rails.env.production? ? 'trendom.io' : 'localhost:3000'
 
@@ -143,8 +146,8 @@ class User
     columns = %w(name position email location linkedin_url photo)
     CSV.generate(options) do |csv|
       csv << columns.map(&:capitalize)
-      profiles_with_revealed_emails.each do |profile|
-        line = [profile.name, profile.position, profile.emails.first, profile.location, profile.linkedin_url, profile.photo]
+      profiles.each do |profile|
+        line = [profile.name, profile.headline, profile.emails.first, profile.main_location[:name], profile.site_standard_request[:url], profile.picture_url]
         csv << line
       end
     end

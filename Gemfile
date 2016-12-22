@@ -72,12 +72,11 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'font-awesome-rails'
 gem 'bootstrap_form'
 gem 'sanitize'
-gem 'resque'
+gem 'sidekiq'
 
 gem 'haml-rails', '~> 0.9'
 gem 'typhoeus'
 gem 'mono_logger'
-# gem 'twocheckout'
 
 gem 'jazz_fingers'
 

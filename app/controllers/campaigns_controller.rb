@@ -20,11 +20,11 @@ class CampaignsController < ApplicationController
   def create
     ids = current_user.campaigns.pluck(:profiles_ids).flatten
     fi = JSON(campaign_params[:hidden])['fi'] || []
-    @profiles = current_user.profiles_not_in_campaigns.where.not(id: ids + fi).limit(100).ids
+    @profiles = current_user.profiles_ids - fi - ids
     @campaign = current_user.campaigns.create(profiles_ids: @profiles,
                                               name: campaign_params[:name],
-                                              email_template_id: current_user.email_templates.find(campaign_params[:email_template_id]).id,
-                                              subject: campaign_params[:subject])
+                                              email_template_id: current_user.email_templates.find(campaign_params[:email_template_id]).id
+    )
     @campaign.send_out if campaign_params[:send_later] == '0'
     @email_template = current_user.email_templates.find(@campaign.email_template_id)
     render :show
@@ -57,6 +57,7 @@ class CampaignsController < ApplicationController
   def set_campaign
     @campaign = current_user.campaigns.find(params[:id])
   end
+
   def campaign_params
     params.permit(:name, :email_template_id, :hidden, :subject, :send_later)
   end

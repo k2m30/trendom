@@ -4,21 +4,21 @@ require_relative 'email_helper'
 class SendEmailJob < ApplicationJob
   queue_as :default
 
-  def perform(profile_id, campaign_id, email_to, email_from, token, user_name)
+  def perform(user, profile_id, campaign_id, email_to)
     @logger = MonoLogger.new('log/sending.log')
     @logger.level = MonoLogger::INFO
 
-    campaign = Campaign.find(campaign_id)
+    campaign = user.campaigns.find(campaign_id)
     profile = Profile.find(profile_id)
 
     if Rails.env.production? or Rails.env.development?
       begin
-        gmail = Gmail.connect(:xoauth2, email_from, refresh_token(token))
-        email = compose_email gmail, profile, email_to, campaign, user_name
+        gmail = Gmail.connect(:xoauth2, user.email, refresh_token(user.refresh_tkn))
+        email = compose_email gmail, profile, email_to, campaign, user
         email.deliver!
-        @logger.info("sent test email from #{email_from} to #{profile.emails.first}")
+        @logger.info("sent test email from #{user.email} to #{profile.emails.first}")
       rescue => e
-        @logger.error [user_name, profile.id]
+        @logger.error [user.name, profile.id]
         @logger.error e.message
         @logger.error pp e.backtrace[0..4]
       end

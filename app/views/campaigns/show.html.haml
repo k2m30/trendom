@@ -14,7 +14,7 @@
   .row
     .col-md-8
       - profile = @campaign.profiles.sample
-      - subject, body = profile.apply_template(@campaign.email_template_id)
+      - subject, body = profile.apply_template(@campaign.email_template_id, current_user)
       %table.table.table-bordered
         %thead
         %tbody
@@ -71,6 +71,6 @@
             %td
               =profile.name
             %td
-              =profile.position
+              =profile.headline
             %td
               =profile.emails.first
