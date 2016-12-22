@@ -141,3 +141,23 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+production:
+  clients:
+    default:
+      database: trendom_fronend
+      hosts:
+        - api.trendom.io:18801
+      options:
+        roles:
+          - 'dbOwner'
+        auth_source: admin
+        connect_timeout: 15
+        wait_queue_timeout: 15
+        max_pool_size: 16
+        user: <%= ENV['MONGO_USER'] %>
+        password: <%= ENV['MONGO_PASSWORD'] %>
+  options:
+    raise_not_found_error: false
+    # Ensure all times are UTC in the app side. (default: false)
+    use_utc: false
+    log_level: :info
