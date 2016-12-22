@@ -31,7 +31,7 @@ class Campaign
   end
 
   def send_test_email(email_to)
-    SendEmailJob.set(queue: user.name.to_sym).perform_now(user, profiles_ids.sample, id.to_s, email_to)
+    SendEmailJob.set(queue: user.name.to_sym).perform_later(user.id.to_s, profiles_ids.sample, id.to_s, email_to)
   end
 
   def profiles

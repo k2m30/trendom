@@ -4,10 +4,10 @@ require_relative 'email_helper'
 class SendEmailJob < ApplicationJob
   queue_as :default
 
-  def perform(user, profile_id, campaign_id, email_to)
+  def perform(user_id, profile_id, campaign_id, email_to)
     @logger = MonoLogger.new('log/sending.log')
     @logger.level = MonoLogger::INFO
-
+    user = User.find(user_id)
     campaign = user.campaigns.find(campaign_id)
     profile = Profile.find(profile_id)
 
